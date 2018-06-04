@@ -18,3 +18,8 @@ preview: kickoff.tex | build
 		--halt-on-error \
 		--output-directory=build \
 	kickoff.tex --pvc
+
+clean:
+	rm -rf build
+
+.PHONY: all clean preview
