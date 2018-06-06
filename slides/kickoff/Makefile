@@ -3,7 +3,7 @@ all: build/kickoff.pdf
 build:
 	mkdir -p build
 
-build/kickoff.pdf: kickoff.tex | build
+build/kickoff.pdf: FORCE | build
 	latexmk \
 		--lualatex \
 		--interaction=nonstopmode \
@@ -19,7 +19,9 @@ preview: kickoff.tex | build
 		--output-directory=build \
 	kickoff.tex --pvc
 
+FORCE:
+
 clean:
 	rm -rf build
 
-.PHONY: all clean preview
+.PHONY: all clean preview FORCE
