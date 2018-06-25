@@ -16,12 +16,12 @@ g = 1
 b = 2
 
 for i in tqdm(range(N), ascii=True, desc="coloring"):
-    rg[i, :, r] = colors.copy()
-    rg[:, i, g] = colors.copy()
-    gb[i, :, g] = colors.copy()
-    gb[:, i, b] = colors.copy()
-    br[i, :, b] = colors.copy()
-    br[:, i, r] = colors.copy()
+    rg[i, :, g] = colors.copy()
+    rg[:, i, r] = colors.copy()
+    # gb[i, :, g] = colors.copy()
+    # gb[:, i, b] = colors.copy()
+    # br[i, :, b] = colors.copy()
+    # br[:, i, r] = colors.copy()
 
 
 def make_mesh(mesh, c, i):
@@ -29,16 +29,24 @@ def make_mesh(mesh, c, i):
     return mesh
 
 
+def rotate(x, y, theta):
+    xr = np.cos(theta) * x + np.sin(theta) * y
+    yr = -np.sin(theta) * x + np.cos(theta) * y
+    return xr, yr
+
+
 def cut_mesh(mesh):
-    x0 = 0
-    x1 = 1
-    a = 1.1
-    e = 4
-    m = 0.3
-    o = 0
-    mask = mesh[:, :, x0] > a * (mesh[:, :, x1] + o) ** e + m
+    theta = np.pi / 4
+    blue = mesh[0, 0, b]
+    R = mesh[:, :, r]
+    G = mesh[:, :, g]
+    a = 2.0
+    offset = 0.3
+    Rr, Gr = rotate(R, G, theta)
+    parabel = -20 * (Gr) ** 2 + (a * (blue - offset)) / np.cos(theta)
+    mask = Rr < parabel
     cut = mesh.copy()
-    cut[mask] = 0
+    cut[~mask] = 0
     return cut
 
 
@@ -64,10 +72,11 @@ def layer(mesh):
 
 
 rg_ = (layer(cut_mesh(make_mesh(rg, b, i))) for i in range(N))
-gb_ = (layer(cut_mesh(make_mesh(gb, r, i))) for i in range(N))
-br_ = (layer(cut_mesh(make_mesh(br, g, i))) for i in range(N))
+# gb_ = (layer(cut_mesh(make_mesh(gb, r, i))) for i in range(N))
+# br_ = (layer(cut_mesh(make_mesh(br, g, i))) for i in range(N))
 
-sites = [rg_, gb_, br_]
+# sites = [rg_, gb_, br_]
+sites = [rg_]
 
 for l, layers in zip(
     ["rg_", "gb_", "br_"], tqdm(sites, ascii=True, desc="Sites", total=3)
