@@ -96,7 +96,9 @@ class Spectrum:
             ax.set_xlabel(name.split()[0])
             ax.set_ylabel(name.split()[1])
             ax.set_title(
-                name.split()[2] + "=" + ("0" if name.split()[3] == "black" else "255")
+                name.split()[2]
+                + "="
+                + ("0" if name.split()[3] == "black" else "255")
             )
 
         self.fig.tight_layout(pad=0)
