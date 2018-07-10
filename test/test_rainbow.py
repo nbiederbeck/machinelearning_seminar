@@ -12,7 +12,7 @@ def main():
 
     r, g, b = 0, 1, 2
 
-    mesh = painter.paint_mesh(r, g, b, 156)
+    mesh = painter.paint_mesh(r, g, b, 0)
     cut = cutter.cut_mesh(mesh, r, g, b, pi / 4)
 
     fig, ax = plotter.plot_colormesh(cut)
