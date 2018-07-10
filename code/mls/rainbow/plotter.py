@@ -9,7 +9,7 @@ class RainbowPlotter:
         self.ax = None
         self.figsize_inches = figsize_inches
 
-    def plot_colormesh(self, mesh):
+    def plot_colormesh(self, mesh, return_fig=True, return_ax=True):
         """Plot colormesh.
 
         Parameters:
@@ -24,7 +24,12 @@ class RainbowPlotter:
         ax.set_xticks([])
         ax.set_yticks([])
         fig.tight_layout(pad=0)
-        return fig, ax
+        if return_fig and return_ax:
+            return fig, ax
+        elif return_fig:
+            return fig
+        elif return_ax:
+            return ax
 
 
 def main():

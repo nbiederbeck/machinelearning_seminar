@@ -9,15 +9,33 @@ class RainbowCutter:
         pass
 
     def cut_mesh(self, mesh, color_x, color_y, color_z=2, theta=0):
-        cut = mesh.copy()
+        """Cut colormesh.
 
+        Parameters:
+            mesh: np.ndarray(256, 256, 3)
+            color_x, color_y, color_z: int 0..2
+                RGB tuple
+            theta: float
+                rotation angle
+        Returns:
+            cut: np.ndarray(256, 256, 3)
+                mesh with cuts applied.
+        """
         RGB = [mesh[:, :, 0], mesh[:, :, 1], mesh[:, :, 2]]
 
-        x, y = self._rotate(RGB[color_x], RGB[color_y], theta)
+        x_arr, y_arr = self._rotate(RGB[color_x], RGB[color_y], -theta)
+        x_arr = x_arr.flatten()
+        y_arr = y_arr.flatten()
+        z = RGB[color_z][0, 0]
 
-        parabel = -20 * y * y + (2.0 * (RGB[color_z] - 0.3)) / np.cos(theta)
+        mask = []
 
-        mask = x < parabel
+        for x, y in zip(x_arr, y_arr):
+            mask.append(y > 4 * (x ** 2) + z)
+
+        mask = np.array(mask).reshape(255, 255)
+
+        cut = mesh.copy()
 
         cut[~mask] = 0
 
@@ -41,7 +59,7 @@ class RainbowCutter:
 
 def main():
     cutter = RainbowCutter()
-    cut = cutter._cut_mesh_(np.zeros((100, 100, 3)), 0, 1, 2, np.pi / 4)
+    cut = cutter.cut_mesh(np.zeros((100, 100, 3)), 0, 1, 2, np.pi / 4)
     print(cut)
 
 
