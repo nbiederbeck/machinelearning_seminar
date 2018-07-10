@@ -1,3 +1,16 @@
+# LaTeX
 build/
+
+# Pictures
 *.jpg
+*.png
+
+# Jupyter
 .ipynb_checkpoints/
+
+# Sphinx Documentation
+docs/.build/
+
+# Python
+*.pyc
+__pycache__/
