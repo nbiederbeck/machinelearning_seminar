@@ -8,7 +8,17 @@ class RainbowCutter:
     def __init__(self):
         pass
 
-    def cut_mesh(self, mesh, color_x, color_y, color_z=2, theta=0):
+    def cut_mesh(
+        self,
+        mesh,
+        color_x,
+        color_y,
+        color_z=2,
+        theta=0,
+        offset_x=0,
+        offset_y=0,
+        scale=1,
+    ):
         """Cut colormesh.
 
         Parameters:
@@ -24,17 +34,17 @@ class RainbowCutter:
         RGB = [mesh[:, :, 0], mesh[:, :, 1], mesh[:, :, 2]]
 
         x_arr, y_arr = self._rotate(RGB[color_x], RGB[color_y], -theta)
-        x_arr = x_arr.flatten()
-        y_arr = y_arr.flatten()
-        z = RGB[color_z][0, 0]
+        x0, y0 = self._rotate(offset_x, offset_y, -theta)
 
-        mask = []
+        x = x_arr - x0
+        y = y_arr - y0
 
-        # for x, y in zip(x_arr, y_arr):
-        #     mask.append(y > 4 * (x ** 2) + z)
-        mask = y_arr > 4 * (x_arr ** 2) + z
+        x = x.flatten()
+        y = y.flatten()
 
-        mask = np.array(mask).reshape(255, 255)
+        mask = y < scale * (x * x)
+
+        mask = mask.reshape(mesh.shape[0], mesh.shape[1])
 
         cut = mesh.copy()
 
