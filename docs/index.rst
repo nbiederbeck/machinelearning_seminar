@@ -3,21 +3,22 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Cloud Classification's documentation!
-================================================
+Cloud Classification
+====================
+
+This is a seminar work at `TU Dortmund, Physik <https://www.physik.tu-dortmund.de>`_.
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-   README
-   docs/rainbow
-   docs/preprocessing
+   rainbow
+   preprocessing
 
 
 
 Indices and tables
-==================
+------------------
 
 * :ref:`genindex`
 * :ref:`modindex`
