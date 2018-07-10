@@ -10,6 +10,7 @@ Welcome to Cloud Classification's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   README
    docs/rainbow
    docs/preprocessing
 
