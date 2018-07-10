@@ -6,24 +6,24 @@ def rotate(x,y, theta):
     ys = -np.sin(theta)*x + np.cos(theta)*y
     return xs ,ys
 
-def squared(x, x_0, y_0, a):
-    return a*(x-x_0)**2 + y_0
+def squared(x, a):
+    return a*(x)**2
 
-def rotate_func(x, y, theta):
+def rotate_func(x, y, bias_x, bias_y, theta):
     xs, ys = rotate(x, y, theta)
-    x_0 = 0.1
-    y_0 = 0.5
-    x_0s, y_0s = rotate(x_0, y_0, theta)
+    x_0s, y_0s = rotate(bias_x, bias_y, theta)
+    xs -= x_0s
+    ys -= y_0s
     resp = []
     for x_i, y_i in zip(xs, ys):
-        resp.append( squared(x_i, x_0s, y_0s, 4) > y_i )
+        resp.append( squared(x_i, 4) > y_i )
     return np.array(resp)
 
 x, y = np.meshgrid(np.linspace(0,1,256), np.linspace(0,1,256))
 x = x.flatten()
 y = y.flatten()
 
-mask = rotate_func(x,y, -np.pi/4)
+mask = rotate_func(x, y, 0.1, 0.5, -np.pi/4)
 
 plt.scatter(x, y, marker='.')
 plt.scatter(x[mask], y[mask], marker='.')
