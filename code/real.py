@@ -14,10 +14,8 @@ def rotate_func(x, y, bias_x, bias_y, theta):
     x_0s, y_0s = rotate(bias_x, bias_y, theta)
     xs -= x_0s
     ys -= y_0s
-    resp = []
-    for x_i, y_i in zip(xs, ys):
-        resp.append( squared(x_i, 4) > y_i )
-    return np.array(resp)
+    mask = squared(xs, 4) > ys
+    return mask
 
 x, y = np.meshgrid(np.linspace(0,1,256), np.linspace(0,1,256))
 x = x.flatten()
