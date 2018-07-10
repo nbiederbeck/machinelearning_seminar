@@ -30,8 +30,9 @@ class RainbowCutter:
 
         mask = []
 
-        for x, y in zip(x_arr, y_arr):
-            mask.append(y > 4 * (x ** 2) + z)
+        # for x, y in zip(x_arr, y_arr):
+        #     mask.append(y > 4 * (x ** 2) + z)
+        mask = y_arr > 4 * (x_arr ** 2) + z
 
         mask = np.array(mask).reshape(255, 255)
 
