@@ -2,76 +2,84 @@ import numpy as np
 
 
 class RainbowCutter:
-    """Cut colormeshes."""
-
-    def __init__(self):
-        pass
-
-    def cut_mesh(
-        self,
-        mesh,
-        color_x,
-        color_y,
-        color_z=2,
-        theta=0,
-        offset_x=0,
-        offset_y=0,
-        scale=1,
-    ):
-        """Cut colormesh.
+    def __init__(self, N=256, theta=0, scale=1, xshift=1, yshift=1, xbias=0, ybias=0):
+        """Initalize a 3d meshgrid with N points per axis.
 
         Parameters:
-            mesh: np.ndarray(256, 256, 3)
-            color_x, color_y, color_z: int 0..2
-                RGB tuple
-            theta: float
-                rotation angle
-        Returns:
-            cut: np.ndarray(256, 256, 3)
-                mesh with cuts applied.
+            N: int
+                Discretisation of axes
+            theta: float 0..2pi
+                Rotation angle
+            scale: float
+                Scaling factor for parabola
+            xshift: float
+            yshift: float
+            xbias: float
+            ybias: float
         """
-        RGB = [mesh[:, :, 0], mesh[:, :, 1], mesh[:, :, 2]]
-
-        x_arr, y_arr = self._rotate(RGB[color_x], RGB[color_y], -theta)
-        x0, y0 = self._rotate(offset_x, offset_y, -theta)
-
-        x = x_arr - x0
-        y = y_arr - y0
-
-        x = x.flatten()
-        y = y.flatten()
-
-        mask = y < scale * (x * x)
-
-        mask = mask.reshape(mesh.shape[0], mesh.shape[1])
-
-        cut = mesh.copy()
-
-        cut[~mask] = 0
-
-        return cut
+        self.theta = theta
+        self.scale = scale
+        self.xshift = xshift
+        self.yshift = yshift
+        self.xbias = xbias
+        self.ybias = ybias
 
     def _rotate(self, x, y, theta):
-        """Rotate x and y by theta.
+        """Rotate x and y tuple by theta at coordinate origin.
 
         Parameters:
-            x, y: np.array
-            theta: float in [0 ... 2 * pi]
+            x, y: np.ndarray
+                Arrays to rotate
+            theta: float
+                Rotation angle
 
         Returns:
-            xr, xy: np.array
-                x, y rotated by theta
+            xr, xy: np.ndarray
+                Rotated input arrays
         """
         xr = np.cos(theta) * x + np.sin(theta) * y
         yr = -np.sin(theta) * x + np.cos(theta) * y
         return xr, yr
 
+    def cut_function(self, x, y, z):
+        """Separate background from signal.
 
-def main():
-    cutter = RainbowCutter()
-    cut = cutter.cut_mesh(np.zeros((100, 100, 3)), 0, 1, 2, np.pi / 4)
-    print(cut)
+        Parameters:
+            x, y, z: np.ndarray
+                RGB colors
 
+        Returns:
+            mask: np.ndarray
+                True/False array containing information about
+                which points to keep or discard.
+        """
+        x0 = z * self.xshift + self.xbias
+        y0 = z * self.yshift + self.ybias
 
-if __name__ == "__main__":
-    main()
+        x_rot, y_rot = self._rotate(x, y, self.theta)
+        x0_rot, y0_rot = self._rotate(x0, y0, self.theta)
+
+        x = x_rot - x0_rot
+        y = y_rot - y0_rot
+
+        mask = y < self.scale * (x * x)
+
+        return mask
+
+    def cut_image(self, im):
+        """Apply mask to image.
+
+        Parameters:
+            im: np.ndarray(PIL.Image.open())
+                png/jpg-image to cut
+
+        Returns:
+            im: np.ndarray
+                Cutted image
+        """
+        r = im[:, :, 0]
+        g = im[:, :, 1]
+        b = im[:, :, 2]
+        mask = self.cut_function(r, g, b)
+        im[~mask] = 0
+        return im
