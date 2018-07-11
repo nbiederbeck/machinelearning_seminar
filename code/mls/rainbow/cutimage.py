@@ -33,17 +33,27 @@ class RainbowCutter:
 class plot_cube:
     def __init__(self, mask):
         self.mask = mask 
+        self.x0, self.x1, self.x2 = np.meshgrid(
+            np.linspace(0, 1, 256), 
+            np.linspace(0, 1, 256),
+            np.linspace(0, 1, 256)    
+            )
+        self.x0[~mask] = 0
+        self.x1[~mask] = 0
+        self.x2[~mask] = 0
+
+
 
     def plot_plane(self, xaxis, yaxis, plane):
         x0, x1 = np.meshgrid(
-            np.linspace(0, 1, 255), 
-            np.linspace(0, 1, 255)    
+            np.linspace(0, 1, 256), 
+            np.linspace(0, 1, 256)    
             )
-        cut = np.ones([255,255])  * plane / 255
+        cut = np.ones([256,256])  * plane / 255
 
-        x0[~self.mask[plane, :, :]] = 0
-        x1[~self.mask[plane, :, :]] = 0
-        cut[~self.mask[plane, :, :]] = 0
+        # x0[~self.mask[plane, :, :]] = 0
+        # x1[~self.mask[plane, :, :]] = 0
+        # cut[~self.mask[plane, :, :]] = 0
 
 
         rgb = np.array([x0,x1, cut]).T
@@ -58,7 +68,7 @@ class plot_cube:
 
 
 def main():
-    N = 255
+    N = 256
 
     cutter = RainbowCutter(N)
     mask_cube = cutter.mask_cube()
