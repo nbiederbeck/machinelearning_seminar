@@ -33,35 +33,46 @@ class RainbowCutter:
 
 def main():
     N = 255
+    point_of_interest= 4
+
     cutter = RainbowCutter(N)
     mask_cube = cutter.mask_cube()
-    print(mask_cube[:, 0, :])
-    print(mask_cube[:, -1, :])
 
-
-    r, g= np.meshgrid(
+    r, g = np.meshgrid(
             np.linspace(0, 1, N), np.linspace(0, 1, N)    
             )
 
-    point_of_interest= 110
-    fig = plt.figure()
-    ax = fig.add_subplot(311)
 
-    # Alle nicht in der Maske null setzen
-    r[~mask_cube[:, :, point_of_interest]] = 0
-    g[~mask_cube[:, :, point_of_interest]] = 0
-    # Irgendwie an das blaue mesh kommen ... waere wsl. besser das cutter.b zu
-    # nehmen
-    b = np.zeros([N, N])
-    b = cutter.b[:, :, 0] # richtig??
-    b += point_of_interest/N
-    # auch blaue maske null setzen?
-    b[~mask_cube[:, :, point_of_interest]] = 0
+    b = np.ones([N,N]) 
+    b *= point_of_interest/N
+
+    print('r.shape: ', r.shape)
+    print('g.shape: ', g.shape)
+    print('b.shape: ', b.shape)
+
+    # r[~mask_cube[point_of_interest, :, :]] = 0
+    # g[~mask_cube[point_of_interest, :, :]] = 0
+    # b[~mask_cube[point_of_interest, :, :]] = 0
+    # b[mask_cube[point_of_interest, :, :]] = point_of_interest/255
+    # b=point_of_interest/255
+
+    #this is now an RGB array, 100x100x3 that I want to display
+    rgb = np.array([r,g,b]).T
     
-    # alles in einem "Farben" array speichern
-    c = np.array([r, g, b]).transpose()
-    # grafisch darstellen
-    ax.imshow(c)
+    color_tuple = rgb.transpose((1,0,2)).reshape((rgb.shape[0]*rgb.shape[1],rgb.shape[2]))
+    
+    m = plt.pcolormesh(r, color=color_tuple, linewidth=0)
+    m.set_array(None)
+    plt.show()
+
+
+    
+    # fig = plt.figure()
+    # ax = fig.add_subplot(311)
+    # ax.scatter(
+    #         r[mask_cube[:, :, point_of_interest]], 
+    #         g[mask_cube[:, :, point_of_interest]]
+    #         )
     # ax.set_xlim(0,1)
     # ax.set_ylim(0,1)
     # ax = fig.add_subplot(312)
@@ -78,7 +89,27 @@ def main():
     #         )
     # ax.set_xlim(0,1)
     # ax.set_ylim(0,1)
-    plt.show()
+    # plt.show()
+
+    # # # Alle nicht in der Maske null setzen
+    # r[~mask_cube[point_of_interest, :, :]] = 0
+    # g[~mask_cube[point_of_interest, :, :]] = 0
+    # # r[~mask_cube[:, :, point_of_interest]] = 0
+    # # g[~mask_cube[:, :, point_of_interest]] = 0
+    # # # Irgendwie an das blaue mesh kommen ... waere wsl. besser das cutter.b zu
+    # # # nehmen
+    # b = cutter.b[:, :, 0] # richtig??
+    # b += point_of_interest/N
+    # # auch blaue maske null setzen?
+    # # b[~mask_cube[:, :, point_of_interest]] = 0
+    # b[~mask_cube[point_of_interest,: , :]] = 0
+    
+    # # alles in einem "Farben" array speichern
+    # c = np.array([r, g, b]).transpose()
+    # # grafisch darstellen
+    # plt.imshow(c)
+    # plt.show()
+    
 
 
 if __name__ == "__main__":
