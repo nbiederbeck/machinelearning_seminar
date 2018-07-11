@@ -4,17 +4,45 @@ import matplotlib.pyplot as plt
 
 class RainbowCutter:
     def __init__(self, N):
+        ''' initalize a 3dim Mesgrid with N points per axis 
+        for calculation of the cuts
+        Parameters:
+            N: int
+            discretisation of axis
+        '''
         self.r, self.b, self.g = np.meshgrid(
             np.linspace(0, 1, N), np.linspace(0, 1, N), np.linspace(0, 1, N)
         )
 
     def _rotate(self, x, y, theta):
+        ''' Rotate given tuple of axis with theta at 
+        coordinate origin
+        Parameters:
+            x, y: ndarray
+                to rotate arrays
+            theta: double
+                angle to rotate
+        '''
         xr = np.cos(theta) * x + np.sin(theta) * y
         yr = -np.sin(theta) * x + np.cos(theta) * y
         return xr, yr
 
     def cut_function(self, x, y, x0, y0, theta, scale):
-
+        ''' cut function to seperate background from signal
+        Parameters:
+            x, y: ndarray(N,N,N)
+                colors to check
+            x0, y0: ndarray(N,N,N)
+                bias of color
+            theta: double
+                angle to rotate
+            scale: double
+                scale of the parabular
+        Returns:
+            mask: ndarray
+                mask of true and false for given 
+                points
+        '''
         x_rot, y_rot = self._rotate(x, y, theta)
         x0_rot, y0_rot = self._rotate(x0, y0, theta)
 
