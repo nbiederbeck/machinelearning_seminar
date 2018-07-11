@@ -27,41 +27,36 @@ class RainbowCutter:
 
     def mask_cube(self):
         return self.cut_function(self.r, self.g, 1.1*self.b, 1.1*self.b,
-                -1*np.pi/3.5
-                , -30)
+                -1*np.pi/3.5, -30)
 
 class plot_cube:
-    def __init__(self, mask):
-        self.mask = mask 
-        self.x0, self.x1, self.x2 = np.meshgrid(
+    def __init__(self, mask, apply_mask=True):
+        self.r, self.b, self.g = np.meshgrid(
             np.linspace(0, 1, 256), 
             np.linspace(0, 1, 256),
             np.linspace(0, 1, 256)    
             )
-        self.x0[~mask] = 0
-        self.x1[~mask] = 0
-        self.x2[~mask] = 0
+        if apply_mask:
+            self.r[~mask] = 0
+            self.b[~mask] = 0
+            self.g[~mask] = 0
 
 
 
-    def plot_plane(self, xaxis, yaxis, plane):
-        x0, x1 = np.meshgrid(
-            np.linspace(0, 1, 256), 
-            np.linspace(0, 1, 256)    
-            )
-        cut = np.ones([256,256])  * plane / 255
+    def plot_plane(self, plane_color, plane):
+        if plane_color == 0:
+            r, g, b = self.r[plane,:,:], self.g[plane,:,:], self.b[plane,:,:]
+        elif plane_color == 1:
+            r, g, b = self.r[:,plane,:], self.g[:,plane,:], self.b[:,plane,:]
+        elif plane_color == 2:
+            r, g, b = self.r[:,:,plane], self.g[:,:,plane], self.b[:,:,plane]
 
-        # x0[~self.mask[plane, :, :]] = 0
-        # x1[~self.mask[plane, :, :]] = 0
-        # cut[~self.mask[plane, :, :]] = 0
-
-
-        rgb = np.array([x0,x1, cut]).T
+        rgb = np.array([r, g, b]).T
         
         color_tuple = rgb.transpose((1,0,2)).reshape(
                 (rgb.shape[0]*rgb.shape[1],rgb.shape[2]))
         
-        m = plt.pcolormesh(x0, color=color_tuple, linewidth=0)
+        m = plt.pcolormesh(r, color=color_tuple, linewidth=0)
         m.set_array(None)
         plt.show()
 
@@ -73,11 +68,11 @@ def main():
     cutter = RainbowCutter(N)
     mask_cube = cutter.mask_cube()
 
-    pltter = plot_cube(mask_cube)
+    pltter = plot_cube(mask_cube, True)
 
-    pltter.plot_plane(1,1,10)
-    pltter.plot_plane(1,1,100)
-    pltter.plot_plane(1,1,250)
+    pltter.plot_plane(0,150)
+    pltter.plot_plane(1,150)
+    pltter.plot_plane(2,150)
 
 if __name__ == "__main__":
     main()
