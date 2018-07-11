@@ -43,29 +43,41 @@ def main():
             np.linspace(0, 1, N), np.linspace(0, 1, N)    
             )
 
-    point_of_interest= 15
+    point_of_interest= 110
     fig = plt.figure()
     ax = fig.add_subplot(311)
-    ax.scatter(
-            r[mask_cube[:, :, point_of_interest]], 
-            g[mask_cube[:, :,point_of_interest]]
-            )
-    ax.set_xlim(0,1)
-    ax.set_ylim(0,1)
-    ax = fig.add_subplot(312)
-    ax.scatter(
-            r[mask_cube[:, point_of_interest, :]], 
-            g[mask_cube[:, point_of_interest, :]]
-            )
-    ax.set_xlim(0,1)
-    ax.set_ylim(0,1)
-    ax = fig.add_subplot(313)
-    ax.scatter(
-            r[mask_cube[point_of_interest, :, :]],
-            g[mask_cube[point_of_interest, :, :]]
-            )
-    ax.set_xlim(0,1)
-    ax.set_ylim(0,1)
+
+    # Alle nicht in der Maske null setzen
+    r[~mask_cube[:, :, point_of_interest]] = 0
+    g[~mask_cube[:, :, point_of_interest]] = 0
+    # Irgendwie an das blaue mesh kommen ... waere wsl. besser das cutter.b zu
+    # nehmen
+    b = np.zeros([N, N])
+    b = cutter.b[:, :, 0] # richtig??
+    b += point_of_interest/N
+    # auch blaue maske null setzen?
+    b[~mask_cube[:, :, point_of_interest]] = 0
+    
+    # alles in einem "Farben" array speichern
+    c = np.array([r, g, b]).transpose()
+    # grafisch darstellen
+    ax.imshow(c)
+    # ax.set_xlim(0,1)
+    # ax.set_ylim(0,1)
+    # ax = fig.add_subplot(312)
+    # ax.scatter(
+    #         r[mask_cube[:, point_of_interest, :]], 
+    #         g[mask_cube[:, point_of_interest, :]]
+    #         )
+    # ax.set_xlim(0,1)
+    # ax.set_ylim(0,1)
+    # ax = fig.add_subplot(313)
+    # ax.scatter(
+    #         r[mask_cube[point_of_interest, :, :]],
+    #         g[mask_cube[point_of_interest, :, :]]
+    #         )
+    # ax.set_xlim(0,1)
+    # ax.set_ylim(0,1)
     plt.show()
 
 
