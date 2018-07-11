@@ -26,40 +26,38 @@ class RainbowCutter:
         return mask
 
     def mask_cube(self):
-        return self.cut_function(self.r, self.g, 1.1*self.b, 1.1*self.b,
-                -1*np.pi/3.5, -30)
+        return self.cut_function(
+            self.r, self.g, 1.1 * self.b, 1.1 * self.b, -1 * np.pi / 3.5, -30
+        )
+
 
 class plot_cube:
     def __init__(self, mask, apply_mask=True):
         self.r, self.b, self.g = np.meshgrid(
-            np.linspace(0, 1, 256), 
-            np.linspace(0, 1, 256),
-            np.linspace(0, 1, 256)    
-            )
+            np.linspace(0, 1, 256), np.linspace(0, 1, 256), np.linspace(0, 1, 256)
+        )
         if apply_mask:
             self.r[~mask] = 0
             self.b[~mask] = 0
             self.g[~mask] = 0
 
-
-
     def plot_plane(self, plane_color, plane):
         if plane_color == 0:
-            r, g, b = self.r[plane,:,:], self.g[plane,:,:], self.b[plane,:,:]
+            r, g, b = self.r[plane, :, :], self.g[plane, :, :], self.b[plane, :, :]
         elif plane_color == 1:
-            r, g, b = self.r[:,plane,:], self.g[:,plane,:], self.b[:,plane,:]
+            r, g, b = self.r[:, plane, :], self.g[:, plane, :], self.b[:, plane, :]
         elif plane_color == 2:
-            r, g, b = self.r[:,:,plane], self.g[:,:,plane], self.b[:,:,plane]
+            r, g, b = self.r[:, :, plane], self.g[:, :, plane], self.b[:, :, plane]
 
         rgb = np.array([r, g, b]).T
-        
-        color_tuple = rgb.transpose((1,0,2)).reshape(
-                (rgb.shape[0]*rgb.shape[1],rgb.shape[2]))
-        
+
+        color_tuple = rgb.transpose((1, 0, 2)).reshape(
+            (rgb.shape[0] * rgb.shape[1], rgb.shape[2])
+        )
+
         m = plt.pcolormesh(r, color=color_tuple, linewidth=0)
         m.set_array(None)
-        plt.show()
-
+        return r, color_tuple
 
 
 def main():
@@ -70,9 +68,10 @@ def main():
 
     pltter = plot_cube(mask_cube, True)
 
-    pltter.plot_plane(0,150)
-    pltter.plot_plane(1,150)
-    pltter.plot_plane(2,150)
+    pltter.plot_plane(0, 150)
+    pltter.plot_plane(1, 150)
+    pltter.plot_plane(2, 150)
+
 
 if __name__ == "__main__":
     main()
