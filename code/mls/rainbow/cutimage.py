@@ -62,10 +62,10 @@ class RainbowCutter:
         return mask
 
     def cut_image(self, im):
-        x = im[:, :, 0]
-        y = im[:, :, 1]
-        z = im[:, :, 2]
-        mask = self.cut_function(x, y, z)
+        r = im[:, :, 0]
+        g = im[:, :, 1]
+        b = im[:, :, 2]
+        mask = self.cut_function(r, g, b)
         im[~mask] = 0
         return im
 
