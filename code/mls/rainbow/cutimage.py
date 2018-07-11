@@ -30,87 +30,44 @@ class RainbowCutter:
                 -1*np.pi/3.5
                 , -30)
 
+class plot_cube:
+    def __init__(self, mask):
+        self.mask = mask 
+
+    def plot_plane(self, xaxis, yaxis, plane):
+        x0, x1 = np.meshgrid(
+            np.linspace(0, 1, 255), 
+            np.linspace(0, 1, 255)    
+            )
+        cut = np.ones([255,255])  * plane / 255
+
+        x0[~self.mask[plane, :, :]] = 0
+        x1[~self.mask[plane, :, :]] = 0
+        cut[~self.mask[plane, :, :]] = 0
+
+
+        rgb = np.array([x0,x1, cut]).T
+        
+        color_tuple = rgb.transpose((1,0,2)).reshape(
+                (rgb.shape[0]*rgb.shape[1],rgb.shape[2]))
+        
+        m = plt.pcolormesh(x0, color=color_tuple, linewidth=0)
+        m.set_array(None)
+        plt.show()
+
+
 
 def main():
     N = 255
-    point_of_interest= 4
 
     cutter = RainbowCutter(N)
     mask_cube = cutter.mask_cube()
 
-    r, g = np.meshgrid(
-            np.linspace(0, 1, N), np.linspace(0, 1, N)    
-            )
+    pltter = plot_cube(mask_cube)
 
-
-    b = np.ones([N,N]) 
-    b *= point_of_interest/N
-
-    print('r.shape: ', r.shape)
-    print('g.shape: ', g.shape)
-    print('b.shape: ', b.shape)
-
-    # r[~mask_cube[point_of_interest, :, :]] = 0
-    # g[~mask_cube[point_of_interest, :, :]] = 0
-    # b[~mask_cube[point_of_interest, :, :]] = 0
-    # b[mask_cube[point_of_interest, :, :]] = point_of_interest/255
-    # b=point_of_interest/255
-
-    #this is now an RGB array, 100x100x3 that I want to display
-    rgb = np.array([r,g,b]).T
-    
-    color_tuple = rgb.transpose((1,0,2)).reshape((rgb.shape[0]*rgb.shape[1],rgb.shape[2]))
-    
-    m = plt.pcolormesh(r, color=color_tuple, linewidth=0)
-    m.set_array(None)
-    plt.show()
-
-
-    
-    # fig = plt.figure()
-    # ax = fig.add_subplot(311)
-    # ax.scatter(
-    #         r[mask_cube[:, :, point_of_interest]], 
-    #         g[mask_cube[:, :, point_of_interest]]
-    #         )
-    # ax.set_xlim(0,1)
-    # ax.set_ylim(0,1)
-    # ax = fig.add_subplot(312)
-    # ax.scatter(
-    #         r[mask_cube[:, point_of_interest, :]], 
-    #         g[mask_cube[:, point_of_interest, :]]
-    #         )
-    # ax.set_xlim(0,1)
-    # ax.set_ylim(0,1)
-    # ax = fig.add_subplot(313)
-    # ax.scatter(
-    #         r[mask_cube[point_of_interest, :, :]],
-    #         g[mask_cube[point_of_interest, :, :]]
-    #         )
-    # ax.set_xlim(0,1)
-    # ax.set_ylim(0,1)
-    # plt.show()
-
-    # # # Alle nicht in der Maske null setzen
-    # r[~mask_cube[point_of_interest, :, :]] = 0
-    # g[~mask_cube[point_of_interest, :, :]] = 0
-    # # r[~mask_cube[:, :, point_of_interest]] = 0
-    # # g[~mask_cube[:, :, point_of_interest]] = 0
-    # # # Irgendwie an das blaue mesh kommen ... waere wsl. besser das cutter.b zu
-    # # # nehmen
-    # b = cutter.b[:, :, 0] # richtig??
-    # b += point_of_interest/N
-    # # auch blaue maske null setzen?
-    # # b[~mask_cube[:, :, point_of_interest]] = 0
-    # b[~mask_cube[point_of_interest,: , :]] = 0
-    
-    # # alles in einem "Farben" array speichern
-    # c = np.array([r, g, b]).transpose()
-    # # grafisch darstellen
-    # plt.imshow(c)
-    # plt.show()
-    
-
+    pltter.plot_plane(1,1,10)
+    pltter.plot_plane(1,1,100)
+    pltter.plot_plane(1,1,250)
 
 if __name__ == "__main__":
     main()
