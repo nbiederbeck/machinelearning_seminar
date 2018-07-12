@@ -52,17 +52,29 @@ class CubePlotter:
         """Plot full 3d RGB cube.
         Paints a figure with 3 subplots.
         """
-        for i in range(256):
-            print("\r{:3.2f}% plotted.".format(100 * i / 256), end="")
+        # for i in range(256):
+        #     print("\r{:3.2f}% plotted.".format(100 * i / 256), end="")
 
-            fig = plt.figure(figsize=(5, 15))
+        #     fig = plt.figure(figsize=(5, 15))
+
+        #     for r in range(3):
+        #         plt.subplot("31{}".format(r))
+        #         self.plot_plane(r, i)
+
+        #     fig.tight_layout(pad=0)
+        #     plt.savefig("build/{}.png".format(i))
+        #     plt.close()
+        for i in range(25):
+            print("\r{:3.2f}% plotted.".format(10 * i / 256), end="")
+
+            fig = plt.figure(figsize=(15, 5))
 
             for r in range(3):
-                plt.subplot("31{}".format(r))
-                self.plot_plane(r, i)
+                plt.subplot("13{}".format(r))
+                self.plot_plane(r, i*10)
 
             fig.tight_layout(pad=0)
-            plt.savefig("build/{}.png".format(i))
+            plt.savefig("build/{}.png".format(i*10))
             plt.close()
 
 
@@ -70,12 +82,12 @@ def main():
     """Plot 3d RGB cube."""
     cutter = RainbowCutter(
         N=256,
-        theta=-np.pi / 2.5,
-        scale=-2.8,
-        xshift=1.2,
-        yshift=1.2,
+        theta=-np.pi / 3.5,
+        scale=-10.0,
+        xshift=1.6,
+        yshift=1.6,
         xbias=0.0,
-        ybias=0.2,
+        ybias=0.1,
     )
 
     plotter = CubePlotter()

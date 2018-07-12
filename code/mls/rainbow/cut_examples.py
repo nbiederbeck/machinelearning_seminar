@@ -25,12 +25,12 @@ def show_pictures(cutter, path):
 def main(path):
     cutter = RainbowCutter(
         N=256,
-        theta=-np.pi / 2.5,
-        scale=-2.8,
-        xshift=1.2,
-        yshift=1.2,
-        xbias=0.0,
-        ybias=0.2,
+        theta=-np.pi / 3.5,
+        scale=-10.0,
+        xshift=1.6,
+        yshift=1.6,
+        xbias=0.01,
+        ybias=0.1,
     )
 
     show_pictures(cutter, path)
