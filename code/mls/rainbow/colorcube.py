@@ -84,10 +84,10 @@ def main():
         N=256,
         theta=-np.pi / 3.5,
         scale=-10.0,
-        xshift=1.6,
-        yshift=1.6,
-        xbias=0.0,
-        ybias=0.1,
+        xshift=1.9,
+        yshift=1.9,
+        xbias=-0.1,
+        ybias=0.07,
     )
 
     plotter = CubePlotter()
