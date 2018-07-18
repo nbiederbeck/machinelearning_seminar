@@ -1,0 +1,13 @@
+\begin{frame}[t]{Hohe ACC}
+		\begin{tikzpicture}[node distance=4cm]
+				\node (A) {Datennahme};
+				\node (B) [right of=A, xshift=-2cm, yshift=1cm] {Label};
+				\node (C) [right of=A] {CNN};
+				\node (D) [right of=C] {Hohe ACC};
+
+				\draw [->] (A) -- (B);
+				\draw [->] (B) -- (C);
+				\draw [->] (A) -- (C);
+				\draw [->] (C) -- (D);
+		\end{tikzpicture}
+\end{frame}

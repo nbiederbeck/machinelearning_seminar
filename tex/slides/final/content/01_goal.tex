@@ -1,7 +1,19 @@
 % \section{Ziel}
 \begin{frame}[t]{Ziel}
-  \begin{itemize}
-    \item[Ziel:] Neuronales Netz nutzen für hohe Genauigkeit bei der Klassifikation von
-      Wolkenbildern in 9 Klassen
-  \end{itemize}
+		\begin{tikzpicture}[node distance=4cm]
+				\node (A) {Datennahme};
+				\node (B) [right of=A, xshift=-2cm, yshift=1cm] {Label};
+				\node (C) [right of=A] {CNN};
+				\node (D) [right of=C] {Hohe ACC};
+
+				\draw [->] (A) -- (B);
+				\draw [->] (B) -- (C);
+				\draw [->] (A) -- (C);
+				\draw [->] (C) -- (D);
+		\end{tikzpicture}
+
+		\begin{itemize}
+				\item[Ziel:] Neuronales Netz nutzen für hohe Genauigkeit bei der Klassifikation von
+						Wolkenbildern in 9 Klassen
+		\end{itemize}
 \end{frame}
