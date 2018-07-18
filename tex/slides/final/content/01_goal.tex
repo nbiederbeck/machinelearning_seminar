@@ -2,15 +2,26 @@
 \begin{frame}[t]{Ziel}
 		\begin{tikzpicture}[node distance=4cm]
 				\node (A) {Datennahme};
-				\node (B) [right of=A, xshift=-2cm, yshift=1cm] {Label};
-				\node (C) [right of=A] {CNN};
+				\node (B) [right of=A, xshift=-1.25cm, yshift=1cm] {Label};
+				\node (C) [right of=A, xshift=1cm] {NN};
 				\node (D) [right of=C] {Hohe ACC};
 
-				\draw [->] (A) -- (B);
-				\draw [->] (B) -- (C);
+				\draw [->, right of=A] (A.north east) -- (B.west);
+				\draw [->] (B.east) -- (C.north west);
 				\draw [->] (A) -- (C);
 				\draw [->] (C) -- (D);
 		\end{tikzpicture}
+		% \begin{tikzpicture}[node distance=4cm]
+		% 		\node (A) {Datennahme};
+		% 		\node (B) [right of=A, xshift=-2cm, yshift=1cm] {Label};
+		% 		\node (C) [right of=A] {CNN};
+		% 		\node (D) [right of=C] {Hohe ACC};
+
+		% 		\draw [->] (A) -- (B);
+		% 		\draw [->] (B) -- (C);
+		% 		\draw [->] (A) -- (C);
+		% 		\draw [->] (C) -- (D);
+		% \end{tikzpicture}
 
 		\begin{itemize}
 				\item[Ziel:] Neuronales Netz nutzen für hohe Genauigkeit bei der Klassifikation von
