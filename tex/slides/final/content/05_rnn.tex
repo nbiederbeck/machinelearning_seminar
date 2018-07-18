@@ -2,12 +2,15 @@
 		\begin{tikzpicture}[node distance=4cm]
 				\node (A) {Datennahme};
 				\node (B) [right of=A, xshift=-2cm, yshift=1cm] {Label};
-				\node (C) [right of=A] {CNN};
-				\node (D) [right of=C] {Hohe ACC};
+				\node (C) [right of=A] {Flat NN};
+				\node (D) [right of=C] {Niedrige ACC};
+				\node (E) [below of=C, yshift=3cm] {Rückweisung};
 
-				\draw [->] (A) -- (B);
-				\draw [->] (B) -- (C);
+				\draw [->, right of=A] (A.north east) -- (B.west);
+				\draw [->] (B.east) -- (C.north west);
 				\draw [->] (A) -- (C);
 				\draw [->] (C) -- (D);
+				\draw [->] (D.south) -- (E.east);
+				\draw [->] (E.west) -- (A.south);
 		\end{tikzpicture}
 \end{frame}
