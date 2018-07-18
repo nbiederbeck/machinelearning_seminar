@@ -1,3 +1,4 @@
+
 # LaTeX
 build/
 
@@ -16,3 +17,6 @@ docs/.build/
 __pycache__/
 *.egg-info/
 .pytest_cache/
+
+# INLCUDE
+!include/
