@@ -1,8 +1,14 @@
 \begin{frame}[t]{ALTERNATIVMETHODE}
+		\begin{tikzpicture}[node distance=4cm]
+				\node (A) {Cuts auf  Farbkanälen};
+				\node (B) [right of=A, ] {Histogrammieren};
+				\node (C) [right of=B] {Random Forest};
+		
+				\draw [->, right of=A] (A) -- (B);
+				\draw [->] (B) -- (C);
+		\end{tikzpicture}
   \begin{columns}
     \begin{column}{0.5\textwidth}
-      Cuts auf Farbkanälen
-
       \centering
       \includegraphics[width=\textwidth]{content/colorcuts1.pdf}
 
@@ -11,8 +17,6 @@
       \includegraphics[width=\textwidth]{content/colorcuts3.pdf}
     \end{column}
     \begin{column}{0.5\textwidth}
-      Histogrammieren der Cuts
-
       \centering
       \includegraphics[width=\textwidth]{content/hist.pdf}
     \end{column}
