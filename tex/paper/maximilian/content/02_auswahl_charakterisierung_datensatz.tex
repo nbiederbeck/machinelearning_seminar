@@ -1,1 +1,40 @@
-\section{auswahl charakterisierung datensatz}\label{sec:02_auswahl_charakterisierung_datensatz}
+\section{Datensatz}
+\label{sec:02_Datensatz}
+
+Der Datensatz wurde mittels einer PiCamera (cite) in einem Zeitraum von 3 Wochen
+aufgenommen. 
+Die Größe des Datensatzes ist beliebig erweiterbar aber wurde aufgrund der
+Zeitlichen einschränkung zur evaluation auf \num{4000} Fotos beschränkt. 
+
+Desweiteren spielt die Zeit in der Die Daten aufgenommen werden eine wesentliche
+Rolle in der relativen Häufigkeit in der die verschiedenen Wolkentypen in dem
+Datensatz repräsentiert sind. 
+So sind zum Beispiel gut-Wetter Wolken viel stärker vertreten als die von
+Regenwetter. 
+Zu den 11 Wolkenklassen die auch die Klasse keine Wolken einschließt zählt
+ebenso eine 'schlechte Fotos' Klasse. 
+Aufgrund von zufAlligen als auch zeitlichen Ereignissen werden Fotos produziert
+anhand derer keine Wolekklassifikation vorgenommen werden kann.
+Ein Beispiel dafür ist wenn eine Person das sichtfeld verdeckt oder es Nacht ist
+und die Wolkendecke aufgrund fehlender belichtung nicht erkannt werden kann. 
+
+Die Wolkenfotos wurden an zwei voneinander unabhängigen Orten aufgenommen, wobei
+Characteristiken der Aufnahmeorte auf den Bildern zu erkennen sind.
+Desweiteren stellte sich bei der Aufnahme des datensatzes heraus das eine
+Ausrichtung der Kamera der Wetterstation nach Osten sinnvoll ist.
+Dadruch laesst sich ein übermäßiges ausleuchten des Bildes durch die Sonne
+verhindern und der Kamerasensor wird geschont.
+Darüber hinaus stellte sich heraus das der Aufnahmewinkel $\theta$ entscheidend
+fuer die Klassifikation ist. 
+Bei grossen Aufnahmewinkel ist nur ein kleinerer Teil der Wolkendecke zu sehen
+als bei kleineren.
+Bei diesen Ausschnitten stellt es sich als schwierig heraus sie der richtigen
+klasse zuzuordnen da der Ausschnitt meist meherern Klassen zuzuordnen ist. 
+Mit Grösseren Raumwinkeln lässt sich das Problem reduzieren, da dadurch ein
+Größerer Teil der Wolkendecke observiert werden kann. 
+
+Die aufgenommenen Daten besitzen a priori kein Label.
+Anhand der im Anhang kurze Erklärung der unterschiedlichen Klassen wurden Sie
+mittels eines eigen dafür programmierten \texttt{Telegram-Bot} eingeteilt.
+Mit hilfe von Freiwilliigen labelnern wurde jedes Foto des Datensatzes drei mal
+klassifiziert und anschliessend per mehrheitsentscheid der Zielklasse zugeteilt.
