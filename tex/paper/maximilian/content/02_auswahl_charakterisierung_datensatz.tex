@@ -33,8 +33,21 @@ klasse zuzuordnen da der Ausschnitt meist meherern Klassen zuzuordnen ist.
 Mit Grösseren Raumwinkeln lässt sich das Problem reduzieren, da dadurch ein
 Größerer Teil der Wolkendecke observiert werden kann. 
 
-Die aufgenommenen Daten besitzen a priori kein Label.
+Die aufgenommenen Daten besitzen a priori kein Label und sind auch nicht immer
+eindeutig einer klasse zuzuordnen.
 Anhand der im Anhang kurze Erklärung der unterschiedlichen Klassen wurden Sie
 mittels eines eigen dafür programmierten \texttt{Telegram-Bot} eingeteilt.
 Mit hilfe von Freiwilliigen labelnern wurde jedes Foto des Datensatzes drei mal
 klassifiziert und anschliessend per mehrheitsentscheid der Zielklasse zugeteilt.
+Der Arbeitsaufwand wurde mit ca $\num{4000} \, \text{Bilder} \cdot \SI{1}{\hertz}$
+abgeschätzt.
+Aufgrund von aussetzern des Bots als auch ladezeit der Bilder konnte die Rate
+auch nach einer Einarbeitungszeit nicht erreicht werden und die pro Bild benötigte Zeit entsprach schätzungsweise
+\SI{15}{\second}
+Bei der evulation der Modelle stellte sich heraus das bei Paralleler nutzung
+sich eine interne Klassenvariable überschrieben wurde so das ein Großteil der
+Klassifizierten Daten einer falschen finalen klasse zugeordenet wurden. 
+
+Final steht ein Datensatz von \num{4000} Bildern welche in 10 Wolkenklassen und
+eine Klasse mit schlechten Fotos aufgeteilt sind. Die Bilder besitzen eine Shape
+von (1024x768x3) und liegen im JPG-Format vor.
