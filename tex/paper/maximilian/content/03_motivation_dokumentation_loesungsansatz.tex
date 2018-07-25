@@ -1,1 +1,95 @@
-\section{motivation dokumentation loesungsansatz}\label{sec:03_motivation_dokumentation_loesungsansatz}
+\section{Preprocessing}
+\label{sec:03_Preprocessing}
+Ziel des Preprocessing ist es die Daten aufzubereiten das der
+Informationsgehalt maximiert sowie Rauschen minimiert wird und so vorbereitet 
+sind, sodass diese von den machine learning algorithmen verarbeitet werden können. 
+Dazu ist einerseits denkbar Untergrunddaten aus den Bilder seperat
+herauszuschneiden.
+Da das Ziel jedoch eine Möglichst automatisierte Verarbeitung der Daten wird auf
+die Methode der Filter zurückgegriffen.
+
+Dazu werden Bilder die geringer als \SI{30}{\percent} als die maximale Helligkeit besitzen
+verworfen. 
+Durch die Seperation anhand des Helligkeitswert kann anders als Beispielsweise
+anders als bei einer Zeitschaltuhr die Messzeit maximiert werden, da die
+Helligkeitsverteilung Monats als auch von der Wolkendecke abhaengig ist.
+Die Fotos werden noch bevor sie klassifiziert werden der Klasse bad picture
+zugeordent um den Arbeitsaufwand geringer zu halten.
+
+Das Wolkenspektrum hatt klar definierte Farben die Hauptsächlich aus Blau, Grau
+und Weiß Tönen besteht. 
+Pixel die nicht zu diesem Spektrum gehöresn werden systematisch auf den
+Minimalwert gesetzt.
+Dazu wird in dem RGB-Farbraum eine Parabel gelegt die Pixel verwirft, die die
+Ungleichung 
+\begin{equation}
+		b > (c - x_0)^2 + x_1
+\end{equation}
+nicht erfüllen und anschließend die Parabel um die Achse gedreht.
+Der Nullpunkt der Parabel wird mit den Helligkeitswerten verschoben.
+Ein Beispiel ist fuer Alle  drei Kanäle in Abbildung \ref{fig:??} zu sehen.
+Dadurch laesst sich ein grossteil der nicht wolken durch eine Farbe ersetzen.
+
+Nachdem die Daten entsprechend aufbereitet wurden mussen sie noch in Form fuer
+die Algorithmen gebracht werden. 
+Dazu wird der Farbraum fuer den Random Forrest diskretisiert.
+Es bewahrte sich als gut 30 bins pro Farbkanal zu verwenden.
+Fuer das Neuronale Netz werden die Daten normiert.
+
+\section{Machine Learning}
+
+Zur automatischen Bestimmung des Wolkentyps werden zwei verschiedene Algorithmen
+verwendet. 
+Einer von diesen ist der Random Forest weil dieser out of the box hinreichend schnell,
+in der Auswertung und resourcendschonen ist.
+Desweiteren wird ein CNN benutzt da dieses in der Laage ist auf den Wolkenformen
+sowie dem Farbspektrum zu lernen. 
+
+Beim training der Algorithmen stellte sich heraus das die Daten aufgrund des im
+Kapitel \ref{sec:??} beschriebene Problem ein grossen Missmatch aufweisen. 
+Daher aendert sich die Zielstellung bei der optimierung wesenltich.
+Ziel ist vorerst nicht einen moeglichst hohe Genauigkeit zu erlangen um die
+Wolkenklassifikation auf den PIs voran zu treiben sondern den Datensatz zu
+erweitern und den Missmatch zu minimieren.
+Dazu werden die Methoden genutzt um die Wolken welche nicht mit dem aktuellen
+Label uebereinstimmen mittels dem Telegram Bot erneut zu ueberbruefen.
+Desweiteren wird bei dem labeln neuer Daten immer ein Label vorgeschlagen
+welches ubernommen oder per Hand gelabelt werden kann.
+Selbstverstaendlich bleibt das Optimierungskriterum die ACC wobei abgeleitete
+Groessen wie der Loss oder confidence Werte kritisch bei Daten welche einen
+Missmatch haben zu betrachten sind.
+
+\subsection{Random Forest}%
+\label{sub:random_forest}
+
+Fuer das Training des Random Forrest koennen mehrere Parameter variiert werden.
+Neben der Tiefe, der Anzahl an gezogenen Feature kann die Anzahl an
+Entscheifungsbaeumen varriert werden.
+Da die Methode des Random Forest jedoch durch einien hohe Anzahl an Baeumen
+gegen Overfitting geschuetzt werden, werden die Tiefe der Baeume nicht weiter
+beschraenkt und die Anzahl an gezogenen Featuren nicht weiter optimiert.
+Desweiteren ist der histogrammierte Datensatz mit 30 bins pro Farbkanal fuer
+machine learning algorithmen sehr niederdimensional.
+
+\subsection{Convolution Neuronal Network}%
+\label{sub:convolution_neuronal_network}
+
+Die optimierung des Netzes steht unter der permisse die Architecture des Netzes
+so einfach zu halten das die ACC maximal wird und die Parameteranzahl welche mit
+der auswertungszeit correllieren kann gering bleibt. 
+Beim Training mit der 'Cross Entropy' als Validation loss stellt sich wider
+erwarten heraus das der validation loss bei guten Vorhersagen bei einem
+Datensatz mit einem Missmatch steigt. 
+Dies liegt daran wenn zum Beispiel bei dem waren label A der Datensatz das label
+B hat. 
+\begin{equation}
+		H(p,q) = -\sum_x p(x) \log q(x)
+\end{equation}
+Somit wird die wahrscheinlichkeit $q(B)$ klein und die Kreuzentropie Gross.
+Dies hat zur Folge das die Kreuzentropie bei Datensaetzen mit einem Missmatch
+bei der Validierung fuer hohe ACC nicht abnimmt sondern groesse als zum Beispiel
+beim Raten ist.
+Das Uebertraining kann durch eine loss funktion welche nicht so sensible auf
+Missmatches ist. 
+Desweiteren wird im Rahmen der Moeglichkeiten der Missmatch der daten zu
+minimieren.
