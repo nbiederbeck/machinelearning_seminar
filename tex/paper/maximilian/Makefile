@@ -18,6 +18,9 @@ build/main.pdf: FORCE | build
 	TEXINPUTS=$(OUT_DIR): BIBINPUTS=$(OUT_DIR): max_print_line=1048576 \
 	$(TEX_CMD) main.tex
 
+build/station_winkel.pdf: FORCE | build
+	TEXINPUTS=$(OUT_DIR): BIBINPUTS=$(OUT_DIR): max_print_line=1048576 \
+	$(TEX_CMD) ./pictures/station_winkel/station_winkel.tex 
 
 preview: FORCE | build
 	TEXINPUTS=$(OUT_DIR): BIBINPUTS=$(OUT_DIR): max_print_line=1048576 \

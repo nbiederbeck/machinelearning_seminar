@@ -93,3 +93,23 @@ Das Uebertraining kann durch eine loss funktion welche nicht so sensible auf
 Missmatches ist. 
 Desweiteren wird im Rahmen der Moeglichkeiten der Missmatch der daten zu
 minimieren.
+
+\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.8\textwidth]{pictures/architecture.png}
+		\caption{}
+		\label{fig:}
+\end{figure}
+
+Als architectur wird zunächst eine AveragePooling schicht gewählt um die
+Dimesonalität des Bildes zu verringern.
+Anschließend folgen drei Convolution Schichten die der Faltung des Bildes
+dienen. 
+Zwischen den Convolution schichten werden die Dimesonalität durch jeweils einer
+MaxPooling Schicht verringert. 
+Anschließend folgen zwei Dense Schichten die der Verarbeitung der
+hochdimensionalen Daten dient. 
+Diese werden durch jeweils einer Dropout und Noise Schicht regularisiert. 
+Abschließend folgt eine Dense schicht mit der Anzahl an neuronen der
+Zielklassen.
+Es wird eine Sigmoid als Aktivierungsfunktion verwendet.
