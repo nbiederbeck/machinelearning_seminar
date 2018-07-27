@@ -32,6 +32,7 @@ Ein Random Forest besteht aus einem Ensemble von mehreren binären Entscheidungs
 ## Auswahl und Beschreibung des Datensatzes
 Der Raspberry Pi nimmt regelmäßig Fotos auf.
 Diese werden von uns in **11** Klassen eingeteilt und gelabelt.
+**Telegram Bot erwähnen**.
 ![**img:** Klassenverteilung (something else)]()
 Besonders hervorzuheben sind "Bad Pictures", da diese auf diesen zum einen gar kein Himmel zu sehen ist, da die Kamera in die falsche Richtung gezeigt hat ![**img:** Beispiel]() oder unbekannte Fehler während der Aufnahme auftraten [rotes Bild, grünes Bild]. 
 Auf weiteren Bad Pictures sind zu viele Regentropfen auf der Kameralinse, sodass eine vernünftige Klassifikation von unserer Seite nicht zuverlässig wäre ![**img:** Beispiel](), was einen unreinen Datensatz zur Folge hätte. 
@@ -45,7 +46,7 @@ Der Datensatz besteht ohne Bad Pictures und Fotos bei Nacht aus **N** Fotos mit 
 Er ist aufgeteilt in **9** Wolkenklassen, von denen **n** aus weniger als **k** Fotos bestehen.
 ![**img:** Verteilung 7 Klassen]()
 
-## Darstellung des Lösungsansatzes
+## Motivation und Darstellung des Lösungsansatzes
 Im Folgenden wird erklärt, wie die aufgenommenen Fotos vorverarbeitet werden und wie sich die Architekturen und das Training der Maschinellen Lernverfahren auf die gewählten Leistungsmerkmale (Genauigkeit?) auswirken. 
 
 ### Vorverarbeitung
@@ -77,11 +78,18 @@ auf den Farbkanälen angewendet.
 Die Pixel, die geschnitten werden sollen, werden auf den RGB Wert $(0, 0, 0)$, also schwarz gesetzt.
 ![**img:** Beispiele auf Farbwürfel und echten Bildern (offensichtlich/nicht-offensichtlich)]()
 
+Im letzten Schritt der Vorverarbeitung wird der Datensatz aufgeteilt in Trainings- und
+Testdatensatz, die separat in Unterordner gespeichert und dort in die jeweiligen
+aufgeteilt Klassen werden.
+Dies ist notwendig, damit im Training des Neuronalen Netzes die Funktion `flow_from_directory`
+verwendet werden kann, die Batch-weise Fotos aus den Ordnern lädt, um den Arbeitsspeicher nicht zu
+überlasten.
+
 ### Neuronales Netz
+Ein Neuronales Netz wird verwendet, da **warum?**
 Das Neuronale Netz wird mit dem Python Paket *keras*^[keras.io] implementiert.
 Es wird die Klasse `keras.models.Sequential` verwendet.
 
-##### *Merkmale*
 **Hier noch herausfinden, wie das Netz aktuell gebaut ist.**
 Die Eingangsparameter des Neuronalen Netzes sind die vollständigen Fotos, also 1024x768x3 Parameter.
 Es werden **k** Abfolgen von `Convolutional` Schichten und `MaxPooling` Schichten verwendet.
@@ -96,24 +104,72 @@ die `Noise` Schichten, um die Gewichte klein zu halten.
 Beides ist in der Matrixmultiplikation von Vorteil,
 da so **herausfinden, warum**.
 
-##### *Auswirkungen*
 
 ### Random Forest
+Ein Random Forest wird verwendet, da **warum?**
 Der Random Forest wird mit dem Python Paket *scikit-learn*^[scikit-learn.org] implementiert.
 Es wird die Klasse `sklearn.ensemble.RandomForestClassifier` verwendet.
 
-##### *Merkmale*
 Die Eingangsparameter des Random Forest sind die histogrammierten Farbkanäle der Fotos, auf denen
 die Farbschnitte angewendet wurden.
 Es werden die einzelnen Kanäle im Bereich $[1, 255]$ in 10 Bins histogrammiert und normiert.
 ![**img:** Histogramm und Foto]()
 Der Farbwert $0$ wird nicht in das Histogramm aufgenommen, da sonst die durch die Farbschnitte entfernten Objekte in die Trainingsdaten aufgenommen werden würden.
 
+Die Trainingsdaten haben die Dimension $(N, 30)$.
+Es wird eine Gridsearch über die Hyperparameter
+`n_estimators`, `criterion`, `max_depth` durchgeführt.
+Die optimalen Parameter sind
+
+| Parameter      | Wert     |
+| -------------- | :------: |
+| `n_estimators` | `120`    |
+| `criterion`    | `'gini'` |
+| `max_depth`    | `None`   |
 
 
-##### *Auswirkungen*
 
+## Darstellung und Interpretation der Ergebnisse
+Die nachfolgend dargestellten Untersuchungen des Datensatzes werden mit Random Forest
+durchgeführt, da dieser um Größenordnungen schneller trainiert und auswertet.
 
+### Nichtübereinstummung der Label auf dem Datensatz
+Bei der Einteilung des Datensatzes in die Unterordner der jeweiligen Klassen des Trainings- und Testdatensatzes ist aufgefallen,
+dass die zugeordneten Label teilweise nicht mit den Klassen übereingestimmt haben.
+Bei der Inspektion des Codes fur das Labeln ist klargeworden, dass sich parallele Threads beim Labeln
+mehrerer Personen gleichzeitig überschrieben haben und somit falsche Label zu den Fotos zugeordnet
+worden sind.
 
-## Darstellung der Ergebnisse
+Um die falsch gelabelten Fotos zu korrigieren, wird 
+ein simpler Random Forest auf einem kleinen Teil des fehlerhaften Datensatz trainiert und auf dem
+gesamten Datensatz ausgewertet.
+Bei Klassifizierungen, die nicht mit dem von uns gesetzten Label übereinstimmen, haben wir mit
+einer binären Entscheidung (stimmt / stimmt nicht) die Klassifizierung bestätigt oder verworfen.
+Dazu wurde der Code zum Labeln erweitert.
+Die verworfenen Fotos mussten neu gelabelt werden.
+
+Dieser Vorgang wurde **mehrere** Male wiederholt, bis ein fehlerfrei gelabelter Datensatz entstand.
+
+Ein Random Forest ist zusätzlich zu den oben genannten Argumenten für diese Aufgabe geeignet, da dieser robuster als ein Neuronales Netz gegen falsche Label im Training ist.
+
+Im Anschluss können sowohl ein finaler und auf reinem Datensatz trainierter Random Forest sowie
+ein Neuornales Netz trainiert werden.
+
+### Neuronales Netz
+
+### Random Forest
+Der finale Random Forest, der die Alternativmethode zum Neuronalen Netz darstellt, erreicht eine
+Genauigkeit auf dem Testdatensatz von $60.8\%$.
+An der Confusion Matrix ist eindeutig zu erkennen, welche Wolkenklassen gut, und welche schlecht
+voneinander gettrennt werden können.
+![**img:** Confusion Matrix Random Forest]()
+Eindeutig zu erkennen ist, dass eine Wolke der Klasse 'nimbostratus' gut vom Random Forest
+vorhergesagt werden kann, während die Klassen 'altocumulus' und 'cirrocumulus' schlecht
+voneinander getrennt werden können.
+Dies liegt im ersten Beispiel an dem hohen Grauwert und geringer Farbauflösung im Blauen,
+im zweiten Beispiel an der ähnlichen Verteilung von Blau und Weiß, und dass die Formen nicht
+mitgelernt werden.
+![**img:** Beispiele (+ Histogramme?) Nimbostratus, Altocumulus/Cirrocumulus]()
+
+## Zusammenfassung
 ## (( Code, Daten im Anhang ))

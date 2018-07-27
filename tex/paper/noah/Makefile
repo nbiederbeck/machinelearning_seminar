@@ -11,7 +11,8 @@ PREVIEW_CMD = \
 	$(TEX_CMD) --pvc
 
 
-all: $(BUILD_FILES)
+all: build/fulltext.pdf
+# all: $(BUILD_FILES)
 
 
 build/fulltext.pdf: content/fulltext.md | build
