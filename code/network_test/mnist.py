@@ -69,6 +69,8 @@ from keras.layers import GaussianNoise
 from keras.layers.core import Dense, Dropout, Flatten
 from keras.layers.convolutional import Conv2D
 from keras.layers.pooling import MaxPooling2D
+from keras.models import model_from_yaml
+import pandas as pd
 
 class network:
     def __init__(self, batch_size=512, epochs=100):
@@ -94,47 +96,53 @@ class network:
                 batch_size = self.batch_size, epochs= self.epochs, 
                 verbose = 1
                 )
-        self.history = callback.history
+        self.history = pd.DataFrame(callback.history)
     
     def evaluate(self, X_test, Y_test):
         score = self.model.fit(
                 X_test, Y_test, batch_size = self.batch_size                )
         return score.history
+
+    def save(self, file_path):
+        model_yaml = self.model.to_yaml()
+        with open(file_path + "model.yaml", "w") as yaml_file:
+            yaml_file.write(model_yaml)
+        self.model.save_weights(file_path + "model.h5")
+        self.history.to_pickle(file_path + "history.pkl")
+        print("(Neuronal Network) Saved model to disk")
+
+
+    def load(self, file_path, compile=True):
+        yaml_file = open(file_path + 'model.yaml', 'r')
+        loaded_model_yaml = yaml_file.read()
+        yaml_file.close()
+        self.model = model_from_yaml(loaded_model_yaml)
+        self.model.load_weights(file_path + "model.h5")
+        print("(Neuronal Network) Loaded model from disk")
+        if compile:
+            self.compile()
     
 def main():
     data = dataset()
 
-    net = network(epochs=10)
-    net.add_layer(Conv2D(32, kernel_size=(3, 3), padding='valid',
+    net = network(epochs=20)
+    net.add_layer(Conv2D(6, kernel_size=(5, 5), padding='valid',
         activation='relu', input_shape=(28,28,1)))
-    net.add_layer(Dropout(0.2))
-    net.add_layer(Conv2D(64, kernel_size=(3, 3), padding='valid', 
-        activation='relu'))
-    net.add_layer(Dropout(0.2))
-    net.add_layer(Conv2D(64, kernel_size=(5, 5), padding='valid',
-        activation='relu'))
-    net.add_layer(MaxPooling2D(pool_size=(2, 2)))
+    net.add_layer(MaxPooling2D((4,4)))
+    net.add_layer(Conv2D(12, kernel_size=(4, 4), padding='valid',
+        activation='relu', input_shape=(28,28,1)))
     net.add_layer(Flatten())
-    net.add_layer(Dense(512, activation='relu'))
+    net.add_layer(Dropout(0.2))
+    net.add_layer(Dense(32, activation='relu'))
     net.add_layer(GaussianNoise(0.2))
     net.add_layer(Dropout(0.2))
-    net.add_layer(Dense(256, activation='relu'))
-    net.add_layer(GaussianNoise(0.2))
-    net.add_layer(Dropout(0.2))
-    net.add_layer(Dense(128, activation='relu'))
-    net.add_layer(GaussianNoise(0.2))
-    net.add_layer(Dropout(0.2))
-    net.add_layer(Dense(128, activation='relu'))
-    net.add_layer(GaussianNoise(0.2))
-    net.add_layer(Dropout(0.2))
-    # net.add_layer(Dense(256, activation='relu'))
-    # net.add_layer(GaussianNoise(0.2))
-    # # net.add_layer(Dropout(0.8))
     net.add_layer(Dense(10, activation='softmax'))
+
     net.compile()
-
     net.fit(*data.get_train_val_data())
+    net.save('./')
 
+    net.load('./')
     score = net.evaluate(*data.get_test_data())
     print('Acc: ', score['acc'])
 

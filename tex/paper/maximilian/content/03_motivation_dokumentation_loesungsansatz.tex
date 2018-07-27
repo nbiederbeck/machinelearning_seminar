@@ -61,7 +61,12 @@ Missmatch haben zu betrachten sind.
 
 \subsection{Random Forest}%
 \label{sub:random_forest}
-
+\begin{wrapfigure}{r}{0.5\textwidth}
+		\centering
+		\includegraphics[width=0.5\textwidth]{./pictures/train_rf.pdf}
+		\caption{}
+		\label{fig:}
+\end{wrapfigure}
 Fuer das Training des Random Forrest koennen mehrere Parameter variiert werden.
 Neben der Tiefe, der Anzahl an gezogenen Feature kann die Anzahl an
 Entscheifungsbaeumen varriert werden.
@@ -112,4 +117,7 @@ hochdimensionalen Daten dient.
 Diese werden durch jeweils einer Dropout und Noise Schicht regularisiert. 
 Abschließend folgt eine Dense schicht mit der Anzahl an neuronen der
 Zielklassen.
-Es wird eine Sigmoid als Aktivierungsfunktion verwendet.
+Fuer die Kernel sowie die Dens schichten wird die Relu funktion als
+Aktivierungsfunktion genutzt.
+Fuer die letzte Schicht wird entsprechend die Sigmoid funktion verwendet um die
+Vorraussagen glatt zu machen und auf 1 zu normieren.
