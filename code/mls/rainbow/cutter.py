@@ -2,7 +2,8 @@ import numpy as np
 
 
 class RainbowCutter:
-    def __init__(self, N=256, theta=0, scale=1, xshift=1, yshift=1, xbias=0, ybias=0):
+    def __init__(self, N=256, theta=-np.pi / 3.5, scale=-10.0, 
+            xshift=1.9, yshift=1.9, xbias=-0.1, ybias=0.07,):
         """Initalize a 3d meshgrid with N points per axis.
 
         Parameters:
