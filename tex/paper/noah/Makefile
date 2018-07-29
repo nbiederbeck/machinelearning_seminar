@@ -16,7 +16,7 @@ all: build/fulltext.pdf
 
 
 build/fulltext.pdf: content/fulltext.md | build
-	pandoc -i $< -o $@ -V "geometry: top=3.5cm, bottom=3.5cm, left=2.5cm, right=2.5cm"
+	pandoc -i $< -o $@ --number-sections
 
 
 build/main.pdf: FORCE | build
