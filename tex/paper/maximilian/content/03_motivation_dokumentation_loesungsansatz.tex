@@ -1,19 +1,25 @@
 \section{Preprocessing}
 \label{sec:03_Preprocessing}
 Ziel des Preprocessing ist es die Daten aufzubereiten das der
-Informationsgehalt maximiert sowie Rauschen minimiert wird und so vorbereitet 
-sind, sodass diese von den machine learning algorithmen verarbeitet werden können. 
-Dazu ist einerseits denkbar Untergrunddaten aus den Bilder seperat
-herauszuschneiden.
-Da das Ziel jedoch eine Möglichst automatisierte Verarbeitung der Daten wird auf
-die Methode der Filter zurückgegriffen.
+Informationsgehalt maximiert sowie Rauschen minimiert wird.
+Desweiteren muessen die Daten so vorverarbeitet werden, dass diese
+diese von den machine learning algorithmen ausgewertet werden können. 
 
-Dazu werden Bilder die geringer als \SI{30}{\percent} als die maximale Helligkeit besitzen
-verworfen. 
+Um das Untegrundrauschen zu minimieren koennten Bildausschnitten auf 
+denen keine Wolken zu erkennen sind herausgeschnitten werden.
+Da das Ziel jedoch eine Möglichst automatisierte Verarbeitung der Date
+ist, wird auf die Methode der Farb-Filter zurückgegriffe, da dabei keine
+manuelle Nachbearbeitung der Fotos, zur Trennung von Wolken und 
+aufgenommener Umgebung benoetigt wird.
+
+Dazu werden Bilder die geringer als \SI{30}{\percent} als die maximale 
+Helligkeit besitzen verworfen. 
 Durch die Seperation anhand des Helligkeitswert kann anders als Beispielsweise
-anders als bei einer Zeitschaltuhr die Messzeit maximiert werden, da die
-Helligkeitsverteilung Monats als auch von der Wolkendecke abhaengig ist.
-Die Fotos werden noch bevor sie klassifiziert werden der Klasse bad picture
+bei einer Zeitschaltuhr die Messzeit abhaengig von der aktuellen Belichtung 
+maximiert werden.
+Die Helligkeitsverteilung ist vom Monat als auch von der Wolkendecke abhaengig
+ist.
+Die Fotos werden noch bevor sie klassifiziert werden der Klasse 'schlechte Fotos' 
 zugeordent um den Arbeitsaufwand geringer zu halten.
 
 \begin{wrapfigure}{r}{0.5\textwidth}
@@ -23,8 +29,8 @@ zugeordent um den Arbeitsaufwand geringer zu halten.
 \label{fig:}
 \end{wrapfigure}
 Das Wolkenspektrum hatt klar definierte Farben die Hauptsächlich aus Blau, Grau
-und Weiß Tönen besteht. 
-Pixel die nicht zu diesem Spektrum gehöresn werden systematisch auf den
+und Weiß Tönen besteht. .
+Pixel die nicht zu diesem Spektrum gehörsn werden systematisch auf den
 Minimalwert gesetzt.
 Dazu wird in dem RGB-Farbraum eine Parabel gelegt die Pixel verwirft, die die
 Ungleichung 
@@ -38,7 +44,7 @@ Dadurch laesst sich ein grossteil der nicht wolken durch eine Farbe ersetzen.
 \begin{figure}
 		\centering
 		\includegraphics[width=0.8\textwidth]{pictures/colorcube.pdf}
-		\caption{Name}
+		\caption{Schnitte orthogonal zu den Drei Achsen des RGB-Farbraums fuer den maximalwert.}
 		\label{fig:name}
 \end{figure}
 
@@ -46,7 +52,7 @@ Nachdem die Daten entsprechend aufbereitet wurden mussen sie noch in Form fuer
 die Algorithmen gebracht werden. 
 Dazu wird der Farbraum fuer den Random Forrest diskretisiert.
 Es bewahrte sich als gut 30 bins pro Farbkanal zu verwenden.
-Fuer das Neuronale Netz werden die Daten normiert.
+Fuer das Neuronale Netz werden die Bilddaten auf eins normiert.
 
 \section{Machine Learning}
 
@@ -67,6 +73,25 @@ Dazu werden die Methoden genutzt um die Wolken welche nicht mit dem aktuellen
 Label uebereinstimmen mittels dem Telegram Bot erneut zu ueberbruefen.
 Desweiteren wird bei dem labeln neuer Daten immer ein Label vorgeschlagen
 welches ubernommen oder per Hand gelabelt werden kann.
+\begin{figure}
+		\centering
+\begin{tikzpicture}[node distance=4cm]
+	\node (A) {Datennahme};
+	\node (B) [right of=A, xshift=-1.25cm, yshift=1cm] {Label};
+	\node (C) [right of=A, xshift=1cm] {Modell};
+	\node (D) [right of=C] {Niedrige ACC};
+	\node (E) [below of=C, yshift=3cm, xshift=-0.5cm] {Rueckweisung};
+	\draw [->, right of=A] (A.north east) -- (B.west);
+	\draw [->] (B.east) -- (C.north west);
+	\draw [->] (A) -- (C);
+	\draw [->] (C) -- (D);
+	\draw [->] (D.south) -- (E.east);
+	\draw [->] (E.west) -- (A.south);
+\end{tikzpicture}
+		\caption{Modell fuer weiteres Vorgehen.}
+		\label{fig:}
+\end{figure}
+
 Selbstverstaendlich bleibt das Optimierungskriterum die ACC wobei abgeleitete
 Groessen wie der Loss oder confidence Werte kritisch bei Daten welche einen
 Missmatch haben zu betrachten sind.

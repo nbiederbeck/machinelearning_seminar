@@ -7,11 +7,12 @@ Die Größe des Datensatzes ist beliebig erweiterbar aber wurde aufgrund der
 Zeitlichen einschränkung zur evaluation auf \num{4000} Fotos beschränkt. 
 
 Desweiteren spielt die Zeit in der Die Daten aufgenommen werden eine wesentliche
-Rolle in der relativen Häufigkeit in der die verschiedenen Wolkentypen in dem
-Datensatz repräsentiert sind. 
+Rolle.
+Abhaengig der Jahreszeiten aendert sch die relative Häufigkeit in der die verschiedene
+Wolkentypen aufgenommen werden koennen und somit in dem Datensatz repräsentiert sind. 
 So sind zum Beispiel gut-Wetter Wolken viel stärker vertreten als die von
 Regenwetter. 
-Zu den 11 Wolkenklassen die auch die Klasse keine Wolken einschließt zählt
+Zu den elf Wolkenklassen die auch die Klasse keine Wolken einschließt zählt
 ebenso eine 'schlechte Fotos' Klasse. 
 Aufgrund von zufAlligen als auch zeitlichen Ereignissen werden Fotos produziert
 anhand derer keine Wolekklassifikation vorgenommen werden kann.
@@ -27,13 +28,15 @@ und die Wolkendecke aufgrund fehlender belichtung nicht erkannt werden kann.
 		\vspace{-0.5cm}
 \end{wrapfigure}
 Die Wolkenfotos wurden an zwei voneinander unabhängigen Orten aufgenommen, wobei
-Characteristiken der Aufnahmeorte auf den Bildern zu erkennen sind.
+Characteristiken der Aufnahmeorte auf den Bildern zu erkennen seien koennen.
 Desweiteren stellte sich bei der Aufnahme des datensatzes heraus das eine
 Ausrichtung der Kamera der Wetterstation nach Osten sinnvoll ist.
 Dadruch laesst sich ein übermäßiges ausleuchten des Bildes durch die Sonne
-verhindern und der Kamerasensor wird geschont.
-Darüber hinaus stellte sich heraus das der Aufnahmewinkel $\theta$ entscheidend
-fuer die Klassifikation ist. 
+verhindern, was den Kamerasensor schont.
+Wie in Abbildung \ref{fig:theta} zu sehen, ist der Aufnahmewinkel $\theta$ 
+entscheidend fuer die Klassifikation. 
+Der Winkel $\theta$ gibt an, wie Steil die Kamera vom Boden richtung Wolken 
+ausgerichtet ist.
 Bei grossen Aufnahmewinkel ist nur ein kleinerer Teil der Wolkendecke zu sehen
 als bei kleineren.
 Bei diesen Ausschnitten stellt es sich als schwierig heraus sie der richtigen
@@ -57,8 +60,8 @@ sich eine interne Klassenvariable überschrieben wurde so das ein Großteil der
 Klassifizierten Daten einer falschen finalen klasse zugeordenet wurden. 
 
 Final steht ein Datensatz von \num{4000} Bildern welche in 10 Wolkenklassen und
-eine Klasse mit schlechten Fotos aufgeteilt sind. Die Bilder besitzen eine Shape
-von (1024x768x3) und liegen im JPG-Format vor.
+eine Klasse mit schlechten Fotos aufgeteilt sind. Die Bilder besitzen eine Dimension 
+von \texttt{(1024x768x3)} und liegen im \texttt{JPG}-Format vor.
 
 \begin{figure}[h]
 		\centering
@@ -125,6 +128,6 @@ von (1024x768x3) und liegen im JPG-Format vor.
 		\caption{keine Wolken}
 		\label{fig:no_clouds}
 		\end{subfigure}
-		\caption{}
+		\caption{Representative Fotos fuer die unterschiedlichen Wolkenklassen.}
 		\label{fig:}
 \end{figure}
