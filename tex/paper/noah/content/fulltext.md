@@ -4,6 +4,7 @@ documentclass: scrartcl
 lang: de-DE
 toc: firstiscover
 toc-depth: 2
+header-includes: \pagenumbering{gobble}
 
 # Metadaten
 title:
@@ -11,7 +12,7 @@ title:
 subtitle:
     - Ist die Klassifikation von Wolkenfotos in 11 Wolkenklassen mittels Neuronalen Netzes möglich?
 abstract:
-    - Ein Bericht über den Prozess des Machine Learnings anhand eines selbstgestellten Problems für das Seminar "Machine Learning for Physicists" an der Technischen Universität Dortmund
+    - Ein Bericht über den Prozess des Machine Learnings anhand eines selbstgestellten Problems für das Seminar "Machine Learning for Physicists" an der Technischen Universität Dortmund \newpage
 author:
     - Noah Biederbeck
 date:
@@ -29,6 +30,8 @@ geometry:
 
 ---
 
+\newpage
+\pagenumbering{arabic}
 # Einleitung, Motivation, Fragestellung
 Ein langfristiges Projekt ist das Bauen einer autarken Wetterstation basierend auf dem Raspberry Pi^[raspberrypi.org]. Dies ist ein linuxbasiertes System-On-A-Chip (SoC). 
 Es werden die Temperatur, Luftfeuchtigkeit und Luftdruck von Sensoren gemessen.
@@ -183,6 +186,8 @@ Im Anschluss können sowohl ein finaler und auf reinem Datensatz trainierter Ran
 ein Neuornales Netz trainiert werden.
 
 ## Neuronales Netz
+**schreiben**
+**Zeiten herausfinden**
 
 ## Random Forest
 Der finale Random Forest, der die Alternativmethode zum Neuronalen Netz darstellt, erreicht eine
@@ -197,9 +202,31 @@ Dies liegt im ersten Beispiel an dem hohen Grauwert und geringer Farbauflösung 
 im zweiten Beispiel an der ähnlichen Verteilung von Blau und Weiß, und dass die Formen nicht
 mitgelernt werden.
 ![(**img:** Beispiele (+ Histogramme?) Nimbostratus, Altocumulus/Cirrocumulus)]()
+**Zeiten herausfinden**
 
 # Zusammenfassung
+Ein erstes Ergebnis dieser Arbeit ist die Bestätigung,
+dass ein Random Forest robuster gegen falsche Label im Datensatz ist.
+Dies liegt an der Mittelung über viele Entscheidungsbäume.
 
+Der Random Forest erreicht eine höhere Leistung,
+als das Neuronale Netz,
+bezogen auf die Problemstellung.
+
+|Merkmal|Neuronales Netz|Random Forest|
+|---|---|---|
+|Genauigkeit / \% |0.4|0.5|
+|Auswertungszeit / s|0.3|0.1|
+
+Weiterhin ist der Random Forest in der Auswertung serh viel schneller, als das Neuronale Netz (s.  Tabelle).
+
+Hierbei muss berücksichtigt werden, dass der Random Forest einen Trainingsdatensatz einer viel
+geringeren Dimension hat.
+
+Aus diesen Gründen ist die Alternativmethode für die Wolkenklassifikation
+besser geeignet, als die gewählte Methode des Maschinellen Lernens.
+
+\newpage
 # Anhang {-}
 ```python
 Code, Datensatz
