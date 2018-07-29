@@ -75,19 +75,7 @@ Desweiteren wird bei dem labeln neuer Daten immer ein Label vorgeschlagen
 welches ubernommen oder per Hand gelabelt werden kann.
 \begin{figure}
 		\centering
-\begin{tikzpicture}[node distance=4cm]
-	\node (A) {Datennahme};
-	\node (B) [right of=A, xshift=-1.25cm, yshift=1cm] {Label};
-	\node (C) [right of=A, xshift=1cm] {Modell};
-	\node (D) [right of=C] {Niedrige ACC};
-	\node (E) [below of=C, yshift=3cm, xshift=-0.5cm] {Rueckweisung};
-	\draw [->, right of=A] (A.north east) -- (B.west);
-	\draw [->] (B.east) -- (C.north west);
-	\draw [->] (A) -- (C);
-	\draw [->] (C) -- (D);
-	\draw [->] (D.south) -- (E.east);
-	\draw [->] (E.west) -- (A.south);
-\end{tikzpicture}
+		\includegraphics[width=\textwidth]{build/vorgehen.pdf}
 		\caption{Modell fuer weiteres Vorgehen.}
 		\label{fig:}
 \end{figure}

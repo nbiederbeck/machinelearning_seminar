@@ -13,14 +13,17 @@ PREVIEW_CMD = \
 
 all: $(BUILD_FILES)
 
-
-build/main.pdf: FORCE | build
-	TEXINPUTS=$(OUT_DIR): BIBINPUTS=$(OUT_DIR): max_print_line=1048576 \
-	$(TEX_CMD) main.tex
-
 build/station_winkel.pdf: FORCE | build
 	TEXINPUTS=$(OUT_DIR): BIBINPUTS=$(OUT_DIR): max_print_line=1048576 \
 	$(TEX_CMD) ./pictures/station_winkel/station_winkel.tex 
+
+build/vorgehen.pdf: FORCE | build
+	TEXINPUTS=$(OUT_DIR): BIBINPUTS=$(OUT_DIR): max_print_line=1048576 \
+	$(TEX_CMD) ./pictures/vorgehen/vorgehen.tex
+
+build/main.pdf: FORCE | build 
+	TEXINPUTS=$(OUT_DIR): BIBINPUTS=$(OUT_DIR): max_print_line=1048576 \
+	$(TEX_CMD) main.tex
 
 preview: FORCE | build
 	TEXINPUTS=$(OUT_DIR): BIBINPUTS=$(OUT_DIR): max_print_line=1048576 \
