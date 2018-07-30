@@ -70,73 +70,80 @@ verhindern.
 
 \section{Machine Learning}
 
-Zur automatischen Bestimmung des Wolkentyps werden zwei verschiedene Algorithmen
-verwendet. 
-Einer von diesen ist der Random Forest weil dieser out of the box hinreichend schnell,
-in der Auswertung und resourcendschonen ist.
-Desweiteren wird ein CNN benutzt da dieses in der Laage ist auf den Wolkenformen
-sowie dem Farbspektrum zu lernen. 
+Zur automatischen Bestimmung des Wolkentyps werden zwei verschiedene 
+Algorithmen verwendet. 
+Der Random Forest wird verwendet weil dieser out of the box hinreichend 
+schnell, in der Auswertung und resourcendschonen ist.
+Desweiteren wird ein CNN benutzt da dieses im Gegensatz zum Random Forest in 
+der Laage ist sowohl auf den Wolkenformen sowie auch dem Farbspektrum zu
+trainieren. 
 
 Beim training der Algorithmen stellte sich heraus das die Daten aufgrund des im
-Kapitel \ref{sec:??} beschriebene Problem ein grossen Missmatch aufweisen. 
-Daher aendert sich die Zielstellung bei der optimierung wesenltich.
+Kapitel \ref{sec:02_Datensatz} beschriebene Problem ein grossen Missmatch 
+aufweisen. 
+Aufgrund dessen ändert sich die Zielstellung bei der Optimierung wesenltich.
 Ziel ist vorerst nicht einen moeglichst hohe Genauigkeit zu erlangen um die
-Wolkenklassifikation auf den PIs voran zu treiben sondern den Datensatz zu
+Wolkenklassifikation auf den PIs voran zu treiben, sondern nun den Datensatz zu
 erweitern und den Missmatch zu minimieren.
 Dazu werden die Methoden genutzt um die Wolken welche nicht mit dem aktuellen
-Label uebereinstimmen mittels dem Telegram Bot erneut zu ueberbruefen.
+Label übereinstimmen mittels dem Telegram Bot erneut zu überprüfen.
 Desweiteren wird bei dem labeln neuer Daten immer ein Label vorgeschlagen
-welches ubernommen oder per Hand gelabelt werden kann.
+welches übernommen oder per Hand gelabelt werden kann.
 \begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{build/vorgehen.pdf}
-		\caption{Modell fuer weiteres Vorgehen.}
+		\caption{Modell fuer weiteres Vorgehen zur verbesserung der Vorhersagen
+		der maschinellen Modelle durch erstellung eines reineren Datensatzes.}
 		\label{fig:}
 \end{figure}
 
-Selbstverstaendlich bleibt das Optimierungskriterum die ACC wobei abgeleitete
-Groessen wie der Loss oder confidence Werte kritisch bei Daten welche einen
-Missmatch haben zu betrachten sind.
+Die Metrik anhand derer die Modelle evaluiert werden bleibt die ACC wobei 
+abgeleitete Größen wie der Loss oder confidence Werte, kritisch bei Daten 
+welche einen Missmatch haben, zu betrachten sind.
 
 \subsection{Random Forest}%
 \label{sub:random_forest}
 \begin{wrapfigure}{r}{0.5\textwidth}
 		\centering
 		\includegraphics[width=0.5\textwidth]{./pictures/train_rf.pdf}
-		\caption{}
+		\caption{Feature Importance des Random Forest.}
 		\label{fig:}
 \end{wrapfigure}
 Fuer das Training des Random Forrest koennen mehrere Parameter variiert werden.
-Neben der Tiefe, der Anzahl an gezogenen Feature kann die Anzahl an
-Entscheifungsbaeumen varriert werden.
-Da die Methode des Random Forest jedoch durch einien hohe Anzahl an Baeumen
+Neben der maximalen Tiefe, der Anzahl an gezogenen Feature pro Baum kann auch 
+die Anzahl an Entscheifungsbaeumen varriert werden.
+Da die Methode des Random Forest jedoch durch einien hohe Anzahl an Bäumen
 gegen Overfitting geschuetzt werden, werden die Tiefe der Baeume nicht weiter
-beschraenkt und die Anzahl an gezogenen Featuren nicht weiter optimiert.
-Desweiteren ist der histogrammierte Datensatz mit 30 bins pro Farbkanal fuer
+beschränkt und die Anzahl an gezogenen Featuren nicht weiter optimiert.
+Desweiteren ist der histogrammierte Datensatz mit 30 bins pro Farbkanal für
 machine learning algorithmen sehr niederdimensional.
 
 \subsection{Convolution Neuronal Network}%
 \label{sub:convolution_neuronal_network}
 
 Die optimierung des Netzes steht unter der permisse die Architecture des Netzes
-so einfach zu halten das die ACC maximal wird und die Parameteranzahl welche mit
-der auswertungszeit correllieren kann gering bleibt. 
-Beim Training mit der 'Cross Entropy' als Validation loss stellt sich wider
-erwarten heraus das der validation loss bei guten Vorhersagen bei einem
+so einfach zu halten das die ACC maximal wird und die Parameteranzahl, welche 
+mit der auswertungszeit korrellieren kann, gering bleibt. 
+Beim Training mit der \texttt{categorical\_crossentropy} als Validation loss stellt sich 
+wider erwarten heraus das der validation loss bei guten Vorhersagen bei einem
 Datensatz mit einem Missmatch steigt. 
-Dies liegt daran wenn zum Beispiel bei dem waren label A der Datensatz das label
-B hat. 
+Dies liegt daran wenn zum Beispiel bei dem waren Label $A$ der Datensatz das label
+$B$ hat. 
 \begin{equation}
 		H(p,q) = -\sum_x p(x) \log q(x)
 \end{equation}
-Somit wird die wahrscheinlichkeit $q(B)$ klein und die Kreuzentropie Gross.
+Somit wird die Wahrscheinlichkeit $q(B)$ die ein trainiertes Netz für die 
+flasch klassifizierte Klasse klein und die Kreuzentropie groß.
 Dies hat zur Folge das die Kreuzentropie bei Datensaetzen mit einem Missmatch
-bei der Validierung fuer hohe ACC nicht abnimmt sondern groesse als zum Beispiel
-beim Raten ist.
-Das Uebertraining kann durch eine loss funktion welche nicht so sensible auf
-Missmatches ist. 
-Desweiteren wird im Rahmen der Moeglichkeiten der Missmatch der daten zu
-minimieren.
+bei der Validierung fuer hohe ACC nicht abnimmt sondern schnell sehr groß wird.
+Das Übertraining kann durch eine Lossfunktion welche nicht so sensible auf
+Missmatches ist verringert werden. 
+Dies ist beispielsweise fuer die in der Analyse verwendete \texttt{logcosh} der
+Fall. 
+Sie aehnlt fuer kleine Werte dem mittleren Quadratischen Fehler und nimmt für
+große Werte einen linearen zusammenhang an.
+Desweiteren wird im Rahmen der Moeglichkeiten versucht den Missmatch der Daten 
+zu minimieren.
 
 \begin{figure}[h]
 		\centering
@@ -144,19 +151,32 @@ minimieren.
 		\caption{}
 		\label{fig:}
 \end{figure}
-
-Als architectur wird zunächst eine AveragePooling schicht gewählt um die
-Dimesonalität des Bildes zu verringern.
-Anschließend folgen drei Convolution Schichten die der Faltung des Bildes
+Als architectur wird zunächst eine \texttt{AveragePooling2D} Schicht mit einer
+\texttt{poolsize} von \texttt{(3,4)} gewählt um die Dimesonalität des Bildes zu verringern.
+Dabei viel die wahl gegen die \texttt{MaxPooling2D} Schicht da durch das 
+Mitteln der Pixel deren Rauschen verringert werden kann.
+Anschließend folgen sechs \texttt{Conv2D} Schichten die der Faltung des Bildes
 dienen. 
-Zwischen den Convolution schichten werden die Dimesonalität durch jeweils einer
-MaxPooling Schicht verringert. 
-Anschließend folgen zwei Dense Schichten die der Verarbeitung der
-hochdimensionalen Daten dient. 
-Diese werden durch jeweils einer Dropout und Noise Schicht regularisiert. 
+Die erste Convolutionschicht besitzt ein Schrittweite von \texttt{strides =
+(3,3)} was ebenso der Dimesnionsreduktion dient.
+Zwischen der Convolution zweiten und dritten Schicht wird mittels
+\texttt{MaxPooling2d} die Dimesonalität weiter verringert. 
+Im anschluss folgen nach der letzten \texttt{Conv2D} Schicht eine weitere
+\texttt{MaxPooling2D} Schicht bevor die Daten geflattet werden.
+Beim \texttt{Flatten} wird aus einem hochdimensionalen Vektor ein flacher Vektor
+mit der gleichen Anzahl an Einträgen.
+Dieser kann von zwei aufeinanderfolgenden \texttt{Dense} Schichten verarbeitet
+werden.
+\texttt{Dense} Schicht wird der Outpuvektor der Flattenschicht $x_i$ mit den
+Gewichten $w_\text{ij}$ multipliziert, welche die Verbindung zur Folgeschicht
+$j$ herstellen.
+Diese werden durch jeweils einer \texttt{Dropout} und \texttt{GaussianNoise} 
+Schicht regularisiert. 
+Dabei dient die \texttt{Dropout}- dazu die Gewichte $w_\text{ij}$ ausgeglichen 
+und die \texttt{Noise}-Schicht zu gewährleisten das diese klein sind.
 Abschließend folgt eine Dense schicht mit der Anzahl an neuronen der
 Zielklassen.
-Fuer die Kernel sowie die Dens schichten wird die Relu funktion als
+Fuer die Kernel sowie die Dens schichten wird die \texttt{relu} Funktion als
 Aktivierungsfunktion genutzt.
-Fuer die letzte Schicht wird entsprechend die Sigmoid funktion verwendet um die
+Fuer die letzte Schicht wird entsprechend die \texttt{sigmoid} Funktion verwendet um die
 Vorraussagen glatt zu machen und auf 1 zu normieren.
