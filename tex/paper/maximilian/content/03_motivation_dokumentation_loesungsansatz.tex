@@ -7,40 +7,43 @@ diese von den machine learning algorithmen ausgewertet werden können.
 
 Um das Untegrundrauschen zu minimieren koennten Bildausschnitten auf 
 denen keine Wolken zu erkennen sind herausgeschnitten werden.
-Da das Ziel jedoch eine Möglichst automatisierte Verarbeitung der Date
-ist, wird auf die Methode der Farb-Filter zurückgegriffe, da dabei keine
-manuelle Nachbearbeitung der Fotos, zur Trennung von Wolken und 
-aufgenommener Umgebung benoetigt wird.
+Stattdessen wird auf die Methode der Farb-Filter zurueckgegriffen, da dabei 
+kein manuelle Nachbearbeitung der Fotos notwendig ist und somit ein höherer 
+Automatisierungsgrad erreicht wird.
 
-Dazu werden Bilder die geringer als \SI{30}{\percent} als die maximale 
-Helligkeit besitzen verworfen. 
-Durch die Seperation anhand des Helligkeitswert kann anders als Beispielsweise
-bei einer Zeitschaltuhr die Messzeit abhaengig von der aktuellen Belichtung 
-maximiert werden.
-Die Helligkeitsverteilung ist vom Monat als auch von der Wolkendecke abhaengig
-ist.
-Die Fotos werden noch bevor sie klassifiziert werden der Klasse 'schlechte Fotos' 
-zugeordent um den Arbeitsaufwand geringer zu halten.
+Dazu werden Bilder, die weniger als \SI{30}{\percent} der maximalen Helligkeit 
+besitzen, verworfen. 
+Anders als Beispielsweise bei einer Zeitschaltuhr laesst sich durch die
+Seperation anhand des Helligkeitswert die Messzeit maximieren, da die 
+Belichtung vom Monat als auch von der Wolkendecke abhaengig ist.
+Fotos welche nicht dem Helligkeitscut entprechen werden noch bevor sie 
+klassifiziert werden der Klasse 'schlechte Fotos' zugeordent um den 
+Arbeitsaufwand geringer zu halten.
 
 \begin{wrapfigure}{r}{0.5\textwidth}
 		\centering
 		\includegraphics[width=0.49\textwidth]{pictures/cut_cube.pdf}
-\caption{}
-\label{fig:}
+		\caption{Um den Winkel $\alpha$ zur Gruenebene geneigte Parabel im RGB 
+				Farbraum, welche zu den Blauwerten geöffnet ist.}
+				\label{fig:parabular}
 \end{wrapfigure}
 Das Wolkenspektrum hatt klar definierte Farben die Hauptsächlich aus Blau, Grau
-und Weiß Tönen besteht. .
+und Weiß Tönen besteht.
 Pixel die nicht zu diesem Spektrum gehörsn werden systematisch auf den
 Minimalwert gesetzt.
-Dazu wird in dem RGB-Farbraum eine Parabel gelegt die Pixel verwirft, die die
-Ungleichung 
+Dazu wird der Farbraum in ein Rotiertes System $RGB'$ mittels der 
+Rotationsmatrix $R_{\alpha}$ um den Nullpunkt gehdreht. 
+Dem rotierten Farbraum $RGB'$ wird eine Parabel gelegt die Pixel verwirft, 
+welche die Ungleichung 
 \begin{equation}
-		b > (c - x_0)^2 + x_1
+		c' > (b' - x_0)^2 + x_1, \hspace{3em} c' \in (r', g')
 \end{equation}
-nicht erfüllen und anschließend die Parabel um die Achse gedreht.
+nicht erfüllen und anschließend die Parabel in den ungestrichenen Raum zurueck
+rotiert.
 Der Nullpunkt der Parabel wird mit den Helligkeitswerten verschoben.
-Ein Beispiel ist fuer Alle  drei Kanäle in Abbildung \ref{fig:??} zu sehen.
-Dadurch laesst sich ein grossteil der nicht wolken durch eine Farbe ersetzen.
+Ein Beispiel ist fuer Alle  drei Kanäle in Abbildung \ref{fig:parabular} zu sehen.
+Dadurch laesst sich ein grossteil der mitfotographierten Untergrunddaten durch
+eine Konstanten Wert ersetzen \texttt{(0,0,0)}.
 \begin{figure}
 		\centering
 		\includegraphics[width=0.95\textwidth]{pictures/cut_hist.pdf}
@@ -54,7 +57,9 @@ Nachdem die Daten entsprechend aufbereitet wurden mussen sie noch in Form fuer
 die Algorithmen gebracht werden. 
 Dazu wird der Farbraum fuer den Random Forrest diskretisiert.
 Durch mehrmaliges austesten kristallisierte sich eine Anzahl von 
-\texttt{bins = 30} als die Diskretisierung mit den besten Ergebnissen heraus.
+\texttt{bins = 30} als die Diskretisierung mit den besten Ergebnissen heraus,
+wobei die auf den Konstanten Wert gesetzten Untergrunddaten kein Teil des
+Histogramms sind.
 Fuer das Neuronale Netz werden die Bilddaten auf eins normiert und mittels 
 eines \texttt{ImageDataGenerator} sequentiell aus den \texttt{JPG}-Dateien 
 eingelesen. 
