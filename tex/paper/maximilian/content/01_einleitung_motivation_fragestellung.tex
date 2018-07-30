@@ -1,50 +1,63 @@
 \section{Motivation}
 \label{sec:Motivation}
 
-\begin{wrapfigure}{r}{0.41\textwidth}
+\begin{wrapfigure}{r}{0.43\textwidth}
+		\vspace{-0.9cm}
 		\centering
 		\includegraphics[width=0.4\textwidth]{./pictures/wetterstation.pdf}
-		\caption{Wetterstation zur aufnahme der Daten}
+		\caption{Wetterstation zur Aufnahme von Wetterdaten.}
 		\label{fig:name}
+		\vspace{-0.5cm}
 \end{wrapfigure}
-Das Weatherpi Projekt entsteht im Rahmen des Physikstudiums.
+Das weatherpi Projekt entsteht im Rahmen des Physikstudiums.
 Es widmet sich der Fragestellung, ob sich mit einfachen Mitteln zuverlässige
 Wettervorhersagen erstellen lassen können.
-Dazu werden lokale Daten mittels Sensoren welche an einen einfachen Einplatinencomputer
-angeschlossen sind, erhoben.
-Diese Daten werden anschliessend auf einen Server hochgeladen welcher
-flaechendeckende Wettervorhersagen machen soll. \par
-Zu den Erhobenen Daten zahlen die Temperatur, der Druck, die Luftfeuchtigkeit
+Dazu werden lokale Wetterdaten mittels Sensoren welche an einen 
+Einplatinencomputer (RaspberryPi) angeschlossen sind, erhoben.
+Die aufgezeichneten Daten werden auf einen zentralen Server hochgeladen.
+Ziel ist es die lokalen Daten von mehreren Wetterstationen auszuwerten um eine
+flaechendeckende Wetterprognose abzugeben. 
+
+Zu den Erhobenen Daten zählen die Temperatur, der Druck, die Luftfeuchtigkeit
 sowie ein Ausschnitt der Wolkendecke.
-Um Korrelationen zwischen den Attributen und der Bewoelkung zu entdecken muessen die Daten
-bei bekannter Bewoelkung aufgenommen werden.
-Zur spezifizierung der aktuellen Wetterlaage ist die Wolkendecke ebenso notwendig.
+Inhalt dieses Papers ist die Wolkenklassifizierung die ein Teil der
+Wetteranalyse bildet.
+Diese ist zur Spezifizierung der aktuellen Wetterlaage notwendig.
+Um Korrelationen zwischen den Attributen und der Bewoelkung zu prüfen
+müssen die Daten bei bekannter Bewoelkung aufgenommen werden.
+Besteht eine Korrelation so könnte in einem weiteren Schritt, die Wolkendecke
+als ein zusätzliches Attribut genutzt werden um die anderen Wetterdaten genauer
+vorherzusagen. 
 
-Die erhobenen Daten sollen mittels einer Live Analyse ausgewertet werden.
-Diese steht unter der Permisse schnell, genau und recoursenschonend zu seien.
-Dazu werden algorithmen des Maschinellen lernenens verwendet. 
-Ziel ist es nach der Erstellung eines klassifizierten Trainingssatzes, die auf
-diesem trainierten Algorithmen bei hinreichend grosser genauigkeit die Klassen
-automatisiert erkennen zu lassen.
-Wenn das Klassenlabel bekannt ist braucht nicht mehr die gesamte Datenmenge des Fotos 
-zum Server geschickt werden und der Datentransfer kann reduziert werden. 
-Desweiteren kann die Rechenlast auf die RasperryPis welche in der Regel nicht ausgelastet sind, 
-vom Server ausgelagert werden. 
+Die erhobenen Wolkendaten sollen nach einem Training auf einem rechenstärkeren
+Computer, mittels einer Live-Analyse auf den Einplatinencomputer ausgewertet 
+werden.
+Die Auswertung steht unter der Permisse schnell, genau und recoursenschonend 
+zu seien.
+Dazu werden Algorithmen des Maschinellen lernenens verwendet, welche auf einen
+Klassifizierten Datensatz trainiert werden. 
+Diese sollen bei hinreichend großer Genauigkeit die Klassenzugehoerigkeit
+automatisch erkennen.
+Wenn das Klassenlabel bekannt ist braucht nicht mehr die gesamte Datenmenge des
+Fotos zum Server geschickt werden und der Datentransfer kann reduziert werden. 
+Desweiteren kann die Rechenlast auf die RasperryPi's, welche in der Regel 
+ausgelastet sind, vom Server ausgelagert werden. 
 
-Dazu werden zwei Modelle evaluiert welche auf den beiden Charakeristischen
+Dazu werden zwei Modelle evaluiert welche auf den charakeristischen
 Eigenschaften des Wolkenspektrums trainiert werden. 
 Diese sind einerseits die Formen, sowie das Farbspektrum der Wolken.
-Aus dem aufgenommenen Foto wird ein diskretes Farbspektrum erstellt, welches mit
-einem Random Forest ausgewertet werden kann.
-Dabei bietet der Random Forrest ein groesst moeglichen Schutz gegen üebertraining.
-Mittels eine Convolutional Neuronal Network (CNN) besteht die Moeglichkeit auf
+Aus dem aufgenommenen Foto wird ein diskretes Farbspektrum erstellt, welches 
+mit einem Random Forest ausgewertet werden kann.
+Dabei bietet der Random Forrest ein hohen Schutz gegen Übertraining.
+Mittels eine Convolutional Neuronal Network (CNN) besteht die Möglichkeit auf
 dem Farbspektrum der Wolken sowie deren Formen zu trainieren. 
-Die erhoehte Informationsdichte mit der das CNN trainiert werden kann, verspricht bei 
-gutem Training ein einen performance Schub.
+Die erhöhte Informationsdichte mit der das CNN trainiert werden kann, 
+lässt bei einem ausreichend generalisierten Training auf einen performance 
+Schub gegenüber den Random Forest schliessen.
 
-Werden die Wolken entsprechend richtig klassifiziert laesst sich in weiteren
-Schritten welche nicht Teil dieses Papers sind aus der Folge der Wolken z.B
-der Niederschlag berechnen. 
-Desweiteren kann die entwicklung der Temperatur aufgrund der Waermespeicherung
-und Isolierug von Wolken verbessert werden.
+% Werden die Wolken entsprechend richtig klassifiziert laesst sich in weiteren
+% Schritten welche nicht Teil dieses Papers sind aus der Folge der Wolken z.B
+% der Niederschlag berechnen. 
+% Desweiteren kann die entwicklung der Temperatur aufgrund der Waermespeicherung
+% und Isolierug von Wolken verbessert werden.
 
