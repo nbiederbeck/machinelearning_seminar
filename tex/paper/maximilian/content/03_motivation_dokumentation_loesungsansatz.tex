@@ -45,15 +45,23 @@ Dadurch laesst sich ein grossteil der nicht wolken durch eine Farbe ersetzen.
 		\centering
 		\includegraphics[width=0.95\textwidth]{pictures/cut_hist.pdf}
 		\caption{Anhand des Farbspektrums geschwärzter Untergrund und die
-		dazugehörigen Farbspektra zur Reduzierung des Umgebungsrauschens.}
+		dazugehörigen Farbspektra zur Reduzierung des Umgebungsrauschens mit
+		\texttt{bins = 10} zur Veranschauungszwecken.}
 		\label{fig:name}
 \end{figure}
 
 Nachdem die Daten entsprechend aufbereitet wurden mussen sie noch in Form fuer
 die Algorithmen gebracht werden. 
 Dazu wird der Farbraum fuer den Random Forrest diskretisiert.
-Es bewahrte sich als gut 30 bins pro Farbkanal zu verwenden.
-Fuer das Neuronale Netz werden die Bilddaten auf eins normiert.
+Durch mehrmaliges austesten kristallisierte sich eine Anzahl von 
+\texttt{bins = 30} als die Diskretisierung mit den besten Ergebnissen heraus.
+Fuer das Neuronale Netz werden die Bilddaten auf eins normiert und mittels 
+eines \texttt{ImageDataGenerator} sequentiell aus den \texttt{JPG}-Dateien 
+eingelesen. 
+Dadurch laesst sich das Überlaufen des begrenzten Arbeitsspeicher auf Kosten 
+der Trainingszeit, durch das wiederholte Laden der Daten von der Festplatte,
+verhindern.
+
 
 \section{Machine Learning}
 
