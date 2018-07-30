@@ -11,12 +11,12 @@ PREVIEW_CMD = \
 	$(TEX_CMD) --pvc
 
 
-all: build/fulltext.pdf
+all: build/main.pdf
 # all: $(BUILD_FILES)
 
 
-build/fulltext.pdf: content/fulltext.md | build
-	pandoc -i $< -o $@ --number-sections
+# build/fulltext.pdf: content/fulltext.md | build
+	# pandoc -i $< -o $@ --number-sections
 
 
 build/main.pdf: FORCE | build
