@@ -4,14 +4,16 @@ Mit Hilfe eines \texttt{TelegramBot}s konnten die selbst aufgenommen
 Daten gelabelt werden.
 Dabei unterlief ein Fehler, sodass die Klassenzugehörigkeit der Bilder teilweise
 falsch eingetragen wurde.
-Das neugesteckte Ziel ist eine starke Generalisierung um den 
-Missmatch zu handeln.
+Das neugesteckte Ziel ist eine starke Generalisierung der maschinellen Lernern 
+um das Training auf den Daten die einen Missmatch haben zu ermöglichen.
 Desweiteren konnte das Verhalten der Algorithmen bei einem Datensatz
 mit einem Missmatch studiert werden.
 Die Trainierten Modelle wurden dazu verwendet den Missmatch 
 suksessive zu verringern.
 Desweiteren wurde ein Farbfilter sowie die Möglichkeit einen 
 Datensatz per Chat zu labeln geschaffen.
+Es wurde durch Varation der Architectur versucht das Netz der Problemstellung
+anzupassen und die Parameter geschickt zu wählen.
 Die Vorhersagegenauigkeit der Modelle sind mit dem Missmatch antikorelliert was
 den Fokus auf eine weitere Bereinigung des Datensatzes legt.
 Der Random Forest erweist sich dabei als das Modell welches mit 
@@ -20,11 +22,12 @@ kann.
 
 In Zukunft soll der Datensatz wesentlich erweitert werden um das 
 Training des CNN zu verbessern.
-Desweiteren wird geprüft ob bei einem hinreichend großen Datensatz und Accuracy
-der Modelle Wolken mittels dem sliding Window verfahren getrackt werden koennen.
+Desweiteren wird geprüft ob, bei einem hinreichend großen Datensatz sowie
+Genauigkeit, 
+Modelle Wolken mittels dem sliding Window verfahren tracken koennen.
 Dabei sind besonders die Größenänderung sowie die Bewegungsrichtung von
 besonderem Interesse.
-Dies könnte sowhol die Präzesion der Wettervorhersage als auch bei
-die Routenberechnung des Segelfliegens verbessern. 
+Dies könnte zum Beispiel sowohl die Präzesion der Wettervorhersage, als auch 
+die Routenberechnung für Segelflieger verbessern. 
 Dazu werden lokale Wolkenvorhersagen benötigt, die durch die Methode
 möglicherweise geschaffen werden können.
