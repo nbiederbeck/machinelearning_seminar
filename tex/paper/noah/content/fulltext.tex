@@ -31,8 +31,8 @@ Ein maschinelles Lernverfahren soll genutzt werden, um die Himmelfotos
 direkt auf dem Raspberry~Pi zu klassifizieren. Die Wahl fällt auf ein
 Neuronales Netz. Neuronal Netze bestehen aus mehreren Schichten, die
 verschiedene Matrixmultiplikationen verwenden, um zum einen Dimensionen
-zu reduzieren und Eingangsparameter im Bezug auf die zugehörige Klasse
-zu gewichten. Ein großer Vorteil gegenüber anderen Maschinellen
+zu reduzieren und zum anderen Eingangsparameter im Bezug auf die zugehörige Klasse
+zu gewichten. Ein großer Vorteil gegenüber anderen maschinellen
 Lernverfahren ist, dass das Modell unabhängig von den Trainingsdaten
 verwendet werden kann (vergleiche kNN, hier muss der gesamte
 Trainingsdatensatz gespeichert werden), was für die Wettervorhersage
@@ -51,7 +51,7 @@ hier kann das Modell zum Auswerten ohne die Trainingsdaten weitergegeben
 werden und ist somit gut geeignet für kleine Systeme wie den Raspberry~Pi.
 Der Random Forest hat weniger Kapazitäten als das Neuronale Netz, da
 er nur die Information der Farbkanäle zum Trainieren bekommt. Der Random
-Forest ist ein beliebter Machine-Learning Algorithmus, da er mit wenig
+Forest ist ein beliebter Algorithmus für maschinelles Lernen, da er mit wenig
 Optimierung brauchbare Ergebnisse liefert und seine Trainingszeit sehr
 gering ist. Ein Random Forest besteht aus einem Ensemble von mehreren
 binären Entscheidungsbäumen.
@@ -75,10 +75,9 @@ sind.
 \label{fig:verteilung}
 \end{figure}
 
-Besonders hervorzuheben sind \enquote{Bad Pictures}, da auf diesen zum einen
+Besonders hervorzuheben sind `Bad Pictures', da auf diesen zum einen
 gar kein Himmel zu sehen ist, da die Kamera in die falsche Richtung
-gezeigt hat
-oder unbekannte Fehler während der
+gezeigt hat, zum anderen unbekannte Fehler während der
 Aufnahme auftraten.
 Siehe für Beispiele Abbildung~\ref{fig:fehler}.
 
@@ -103,11 +102,11 @@ Siehe für Beispiele Abbildung~\ref{fig:fehler}.
     \caption{Beispiel für \enquote{falsche Richtung}.}%
     \label{fig:wrong_direction}
   \end{subfigure}
-  \caption{Beispiele für Bad Pictures.}%
+  \caption{Beispiele für `Bad Pictures'.}%
   \label{fig:fehler}
 \end{figure}
 
-Auf weiteren Bad Pictures sind zu
+Auf weiteren `Bad Pictures' sind zu
 viele Regentropfen auf der Kameralinse, sodass eine vernünftige
 Klassifikation von unserer Seite nicht zuverlässig wäre,
 was einen unreinen Datensatz zur Folge hätte.
@@ -115,15 +114,15 @@ Weiterhin nimmt die Wetterstation auch nachts Fotos auf, welche aufgrund
 des schlechten Lichtsensors in der Kamera nicht gut aufgelöst werden
 können uns somit großflächig zu dunkel sind, um Wolken zu erkennen.
 
-Fotos bei Nacht und Bad Pictures werden nicht mit abgegeben, um den
+Fotos bei Nacht und `Bad Pictures' werden nicht mit abgegeben, um den
 benötigten Speicherplatz für den Datensatz nicht unnötig zu vergrößern.
 Die beiden Klassen werden auch nicht in das Training der Algorithmen
 aufgenommen, da die selbstgestellte Aufgabe ist, fotografierte Wolken in
 Wolkenklassen einzuteilen, nicht zu entscheiden, ob es ein gutes
 (persönliche/menschliche Wertung) Foto ist. Auf langfristige Sicht
-sollte der Anteil von Bad Pictures statistisch gering sein.
+sollte der Anteil von `Bad Pictures' statistisch gering sein.
 
-Der Datensatz besteht ohne Bad Pictures und Fotos bei Nacht aus 3250
+Der Datensatz besteht ohne `Bad Pictures' und Fotos bei Nacht aus 3250
 Fotos mit 1024$\times$768 Pixeln mit je 3 Farbkanälen und belegt unkomprimiert
 1,5 GB Speicherplatz. Er ist aufgeteilt in 11 Wolkenklassen, von denen 2
 aus weniger als 12 Fotos bestehen.
@@ -135,7 +134,7 @@ Der Datensatz wird freigegeben unter der MIT-Lizenz.
 Lösungsansatzes}\label{motivation-und-darstellung-des-luxf6sungsansatzes}}
 
 Im Folgenden wird erklärt, wie die aufgenommenen Fotos vorverarbeitet
-werden und wie sich die Architekturen und das Training der Maschinellen
+werden und wie sich die Architekturen und das Training der maschinellen
 Lernverfahren auf die gewählten Leistungsmerkmale auswirken.
 
 \hypertarget{vorverarbeitung}{%
@@ -192,7 +191,7 @@ sollen, werden auf den RGB Wert $(0, 0, 0)$, also schwarz gesetzt.
 % \label{fig:}
 % \end{figure}
 
-Es werden die einzelnen Kanäle im Bereich $[1, 255]$ in 10 Bins
+Es werden die einzelnen Kanäle im Bereich $[1, 255]$ in 30 Bins
 histogrammiert und normiert.
 
 In Abbildung~\ref{fig:cut_hist} ist dieser Farbschnitt und die Histogramme für ein Beispielfoto dargestellt.
@@ -200,7 +199,7 @@ In Abbildung~\ref{fig:cut_hist} ist dieser Farbschnitt und die Histogramme für 
 \begin{figure}
 \centering
 \includegraphics[width=0.8\textwidth]{pictures/cut_hist.pdf}
-\caption{Histogramm und Originalfoto mit und ohne Farbschnitt.}%
+\caption{Histogramm und Originalfoto mit und ohne Farbschnitt, dargestellt sind nur 10 Bins.}%
 \label{fig:cut_hist}
 \end{figure}
 
@@ -225,7 +224,7 @@ Klassen unabhängiges Training.
 
 Ein Neuronales Netz wird verwendet, da es in der Lage ist, mittels
 \texttt{Convolutional} Schichten Formen auf Bildern zu erkennen. Die
-Auswertung besteht Matrixmultiplikationen, die einfach zu rechnen sind.
+Auswertung besteht aus Matrixmultiplikationen, die einfach zu rechnen sind.
 Das Neuronale Netz wird mit dem Python Paket \emph{keras}\footnote{keras.io}
 implementiert. Es wird die Klasse \texttt{keras.models.Sequential}
 verwendet.
@@ -267,7 +266,7 @@ die Klasse \linebreak\texttt{sklearn.ensemble.RandomForestClassifier} verwendet.
 
 Die Eingangsparameter des Random Forest sind die histogrammierten
 Farbkanäle der Fotos, auf denen die Farbschnitte angewendet wurden. Die
-Trainingsdaten haben die Dimension $(N, 90)$.
+Trainingsdaten haben die Dimension $(N \times 90)$.
 
 Der einzige wichtige Hyperparameter ist hier \texttt{n\_estimators}. Er
 entscheidet, wie viele Bäume im Random Forest verwendet werden. Es wird
@@ -282,14 +281,14 @@ Die nachfolgend dargestellten Untersuchungen des Datensatzes werden mit
 Random Forest durchgeführt, da dieser um Größenordnungen schneller
 trainiert.
 
-\hypertarget{nichtuxfcbereinstummung-der-label-auf-dem-datensatz}{%
-\subsection{Nichtübereinstummung der Label auf dem
-Datensatz}\label{nichtuxfcbereinstummung-der-label-auf-dem-datensatz}}
+\hypertarget{nichtuxfcbereinstimmung-der-label-auf-dem-datensatz}{%
+\subsection{Nichtübereinstimmung der Label auf dem
+Datensatz}\label{nichtuxfcbereinstimmung-der-label-auf-dem-datensatz}}
 
 Bei der Einteilung des Datensatzes in die Unterordner der jeweiligen
 Klassen des Trainings- und Testdatensatzes ist aufgefallen, dass die
 zugeordneten Label teilweise nicht mit den Klassen übereingestimmt
-haben. Bei der Inspektion des Codes für das Labeln ist klargeworden,
+haben. Bei der Inspektion des Codes für das Labeln ist klar geworden,
 dass sich parallele Threads beim Labeln mehrerer Personen gleichzeitig
 überschrieben haben und somit falsche Label zu den Fotos zugeordnet
 worden sind.
@@ -297,7 +296,7 @@ worden sind.
 Um die falsch gelabelten Fotos zu korrigieren, wird ein simpler Random
 Forest auf einem kleinen Teil des fehlerhaften Datensatz trainiert und
 auf dem gesamten Datensatz ausgewertet. Bei Klassifizierungen, die nicht
-mit dem von uns gesetzten Label übereinstimmen, haben wir mit einer
+mit dem von uns gesetzten Label übereinstimmten, haben wir mit einer
 binären Entscheidung (\enquote{stimmt} / \enquote{stimmt nicht}) das von uns
 gesetzte Label bestätigt oder verworfen. Dazu wurde der Code zum Labeln
 und der Telegram-Bot erweitert. Die verworfenen Fotos mussten neu
@@ -321,14 +320,13 @@ Das Neuronale Netz wird 200 Epochen trainiert. Als Metrik wird
 der Klassifizierung einer einzelnen Klasse, gemittelt über alle Klassen.
 
 Die Genauigkeit und der Loss werden auf den Trainings- und Testdaten
-gegen die Epoche in Abbildung dargestellt. Es ist zu erkennen, dass die
-Werte in Sättigungswerte laufen, die bei
+gegen die Epoche in Abbildung~\ref{fig:train_nn} dargestellt. Es ist zu erkennen, dass die
+Werte in Sättigungswerte laufen, die für den Validierungsdatensatz (gepunktete Linie) bei
 \begin{align}
   ACC  &=  \num{0.65} \\
-  LOSS &= \num{0.016}
+  LOSS &= \num{0.35}
 \end{align}
 liegen.
-Vergleiche hierzu Abbildung~\ref{fig:train_nn}.
 
 \begin{figure}
 \centering
@@ -339,6 +337,13 @@ Vergleiche hierzu Abbildung~\ref{fig:train_nn}.
 
 Die Confusion Matrix in Abbildung~\ref{fig:conf_nn} zeigt, welche Klassen besser und
 welche schlechter vorhergesagt werden.
+Insbesondere die Klasse `cumulus' wird mit 95\% Genauigkeit vorhergesagt.
+Dies liegt an der deutlich ausgeprägten Form und und den harten Unterschieden in den Farben.
+Ein Beispiel für eine Cumuluswolke ist im Anhang in Abbildung~\ref{fig:cumulus} zu finden.
+Die Klasse `cirrus' wird schlecht vorhergesagt.
+Gründe hierfür sind geringe Farbunterschiede und diffuse Formen.
+Ein Beispiel für eine Cirruswolke ist im Anhang in Abbildung~\ref{fig:cirrus} zu finden.
+
 
 \hypertarget{random-forest-1}{%
 \subsection{Random Forest}\label{random-forest-1}}
@@ -349,19 +354,15 @@ An der Confusion Matrix in Abbildung~\ref{fig:conf_rf} ist eindeutig zu erkennen
 Wolkenklassen gut, und welche schlecht voneinander getrennt werden
 können.
 
-Eindeutig zu erkennen ist, dass eine Wolke der Klasse `nimbostratus' gut
+Eindeutig zu erkennen ist, dass die Klassen `nimbostratus' und `no clouds' gut
 vom Random Forest vorhergesagt werden kann, während die Klassen
-`altocumulus' und `cirrocumulus' schlecht voneinander getrennt werden
-können. Dies liegt im ersten Beispiel an dem hohen Grauwert und geringer
-Farbauflösung im Blauen, im zweiten Beispiel an der ähnlichen Verteilung
-von Blau und Weiß, und dass die Formen nicht mit gelernt werden.
-
-% \begin{figure}
-% \centering
-% % \includegraphics[width=0.8\textwidth]{}
-% \caption{Beispiele (+ Histogramme?) Nimbostratus, Altocumulus/Cirrocum     }%
-% \label{fig:beispiel}
-% \end{figure}
+`cirrus' und `cirrocumulus' schlecht klassifiziert werden
+können.
+Dies liegt im ersten Beispiel an der hohen Homogenität der Farbe über das gesamte Foto.
+Dass insbesondere `cirrus' als `no clouds' klassifiziert wird,
+liegt an der diffusen Form der Cirruswolke und den deswegen geringen Farbunterschieden der beiden
+Fotos.
+Siehe auch hier Abbildung~\ref{fig:cirrus}.
 
 Die Auswertungszeiten der Modelle sind in Abbildung~\ref{fig:times} dargestellt.
 
@@ -404,14 +405,14 @@ bezogen auf die Problemstellung.
 
 \begin{table}
   \centering
-  \caption{Vergleich der relevante Metriken.}%
+  \caption{Vergleich der relevanten Metriken.}%
   \label{tab:fazit}
   \begin{tabular}[]{@{}lrr@{}}
     \toprule
-    Merkmal & Neuronales Netz & Random Forest\\
+    Merkmal             & Neuronales Netz & Random Forest \\
     \midrule
-    Genauigkeit / \% & 64 & 74 \\
-    Auswertungszeit / s & 0.11 & 0.16 \\
+    Genauigkeit / \%    & 64              & 74            \\
+    Auswertungszeit / s & 0.11            & 0.16          \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -424,14 +425,14 @@ Trainingsdatensatz einer viel geringeren Dimension hat.
 
 Aus diesen Gründen ist die Alternativmethode für die
 Wolkenklassifikation besser geeignet, als die gewählte Methode des
-Maschinellen Lernens.
+maschinellen Lernens.
 
 Es hat sich herausgestellt, dass die Problemstellung mit einem recht
 simplen Algorithmus besser beantwortet werden kann, als mit einem
 komplizierteren. Dies ist jedoch nur möglich, da die
 Vorverarbeitungsschritte gut überlegt und implementiert sind. Der
 Vorteil der Implementierung der Vorverarbeitung ist, dass jedes mögliche
-Foto gefiltert werden kann, und es nicht auf Bildgröße 1024$\times$768
+Foto gefiltert werden kann, und sie nicht auf die Bildgröße 1024$\times$768
 beschränkt ist. Außerdem kann ein anderer Farbraum geschnitten werden,
 wenn eine gute Schnittfunktion gefunden wurde.
 
@@ -463,3 +464,21 @@ pip install -r requirements.txt
 cd predictions/pipeline
 python pipeline.py
 \end{verbatim}
+
+\newpage
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[height=0.25\textheight]{content/cumulus.pdf}
+  \caption{Beispiel für eine Cumuluswolke. Gut zu erkennen sind Form und Farbunterschiede. Dies
+  sind die Gründe für die gute Klassifikation des Neuronalen Netzes.}
+  \label{fig:cumulus}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[height=0.25\textheight]{content/cirrus.pdf}
+  \caption{Beispiel für eine Cirruswolke. Gut zu erkennen sind die diffuse Form und geringe Farbunterschiede. Dies
+  sind die Gründe für die schlechte Klassifikation des Neuronalen Netzes.}
+  \label{fig:cirrus}
+\end{figure}
