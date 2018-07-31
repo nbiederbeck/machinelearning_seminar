@@ -1,1 +1,31 @@
-\section{zusammenfassung}\label{sec:05_zusammenfassung}
+\section{Zusammenfassung}
+\label{sec:05_zusammenfassung}
+
+Mit Hilfe eines \texttt{TelegramBot}s konnten die selbst aufgenommen
+Daten gelabelt werden.
+Dabei unterlief ein Fehler, sodass die Klassenzugehörigkeit der Bilder teilweise
+falsch eingetragen wurde.
+Das neugesteckte Ziel ist eine starke Generalisierung um den 
+Missmatch zu handeln.
+Desweiteren konnte das Verhalten der Algorithmen bei einem Datensatz
+mit einem Missmatch studiert werden.
+Die Trainierten Modelle wurden dazu verwendet den Missmatch 
+suksessive zu verringern.
+Desweiteren wurde ein Farbfilter sowie die Möglichkeit einen 
+Datensatz per Chat zu labeln geschaffen.
+Die Vorhersagegenauigkeit der Modelle sind mit dem Missmatch antikorelliert was
+den Fokus auf eine weitere Bereinigung des Datensatzes legt.
+Der Random Forest erweist sich dabei als das Modell welches mit 
+einem kleinen Trainingsdatensatz und Missmatchen besser umgehen 
+kann.
+
+In Zukunft soll der Datensatz wesentlich erweitert werden um das 
+Training des CNN zu verbessern.
+Desweiteren wird geprüft ob bei einem hinreichend großen Datensatz und Accuracy
+der Modelle Wolken mittels dem sliding Window verfahren getrackt werden koennen.
+Dabei sind besonders die Größenänderung sowie die Bewegungsrichtung von
+besonderem Interesse.
+Dies könnte sowhol die Präzesion der Wettervorhersage als auch bei
+die Routenberechnung des Segelfliegens verbessern. 
+Dazu werden lokale Wolkenvorhersagen benötigt, die durch die Methode
+möglicherweise geschaffen werden können.

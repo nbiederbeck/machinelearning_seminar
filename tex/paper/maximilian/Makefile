@@ -21,7 +21,7 @@ build/vorgehen.pdf: FORCE | build
 	TEXINPUTS=$(OUT_DIR): BIBINPUTS=$(OUT_DIR): max_print_line=1048576 \
 	$(TEX_CMD) ./pictures/vorgehen/vorgehen.tex
 
-build/main.pdf: FORCE | build 
+build/main.pdf: build/station_winkel.pdf build/vorgehen.pdf FORCE | build 
 	TEXINPUTS=$(OUT_DIR): BIBINPUTS=$(OUT_DIR): max_print_line=1048576 \
 	$(TEX_CMD) main.tex
 

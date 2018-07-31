@@ -16,6 +16,9 @@
 .4 randomforest.py.
 .4 neuralnet.py.
 .4 evaluate.py.
+.3 pipeline.
+.4 link\_data.
+.4 pipeline.py.
 .2 weatherpi.
 .3 Sensor.
 .3 TelegramBot.
@@ -26,31 +29,27 @@
 .2 \ldots .
 }
 \end{wrapfigure}
-Das Projekt wird mittels der Versioncontrolle \texttt{GitHub} von den Inhabern
+Das Projekt wird mittels der Version Kontrolle \texttt{GitHub} von den Inhabern
 Maximilian Sackel
 und Noah Biederbeck gepflegt. 
-Der Code wurde ueberwiegend in den Programmiersprachen Python und die
-Documentation in \LaTeX verfasst.
-Prinzipell teilt sich das WeatherPi Projekt in zwei Prozesse auf. 
-Zu diesen zaehlt die Datennahme sowie das Labeln der erhobenen Daten und das
+Der Code wurde überwiegend in den Programmiersprachen Python und die
+Dokumentation in \LaTeX verfasst.
+Prinzipiell teilt sich das WeatherPi Projekt in zwei Prozesse auf. 
+Zu diesen zählt die Datennahme sowie das Labeln der erhobenen Daten und das
 erstellen der Vorhersagen.
 Die mittels dem \texttt{TelegramBot} zugeteilten Klassenlabel finden sich zu den
-dazugehoerigen Bildern in der \texttt{label.pkl}.
+dazugehörigen Bildern in der \texttt{label.pkl}.
 In dem Ordner \texttt{predictions} finden sich alle Scripte die dem Maschinellen
 Lernen dienen.
 Die Dateinamen entsprechen dabei ihrer Funktionen.
-Zu erwaehnen ist das die Funktion \texttt{examine\_data.py} abhängig von den
-Modellen ist um Daten welche nicht den Labeln des Datensatz erneut zu
-überprüfen.
-Dazu wird ein DataFrame erstellt welche dem TelegramBot mitteilt welche Fotos
-eine erneute Überprüfung benötigen.
-Zum Ausführen der Files muss das Projekt mit \verb|pip install --user -e setup.py| installiert werden. 
-Bedauerlichweise funktioniert die \texttt{Makefile} noch nicht richtig, sodass
-gewisse Pakete per Hand nachinstalliert werden müssen.
+Zum Ausführen der Files müssen alle benötigten Biblotheken mit 
+\verb|pip install -r requirements.txt| und das Projekt mit 
+\verb|pip install -e .| im weatherpi Projekt installiert werden. 
+Zum Ausführen des Codes auf ein Teil des Datensatzes kann der Punkt Evaluieren
+ind der \texttt{pipeline.py} ausgeführt werden.
 
-
-Auf Anfrage kann Einsicht in den Code gewaehrt werden.
+Auf Anfrage kann Einsicht in den Code gewährt werden.
 Falls Fehler gefunden werden bitte wir Sie die Email
 \href{mailto:maximilian.sackel@gmx.de}{\texttt{maximilian.sackel@gmx.de}} zu 
-kontaktieren, damit diese gefixt werden koennen.
-Ueber Anregungen und Verbesserungsvorschläge freuen wir uns ebenfalls.
+kontaktieren, damit diese gefixt werden können.
+Über Anregungen und Verbesserungsvorschläge freuen wir uns ebenfalls.

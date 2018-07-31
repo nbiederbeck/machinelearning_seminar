@@ -1,49 +1,55 @@
-\section{dokumentation interpretation ergebnisse}
+\section{Interpretation der Ergebnisse}
 \label{sec:04_dokumentation_interpretation_ergebnisse}
 
 Beide Modelle wurden nicht mittels einer Gridsearch optimiert, da durch die
-sukssesive Veraenderung der Daten eine aufwendige suche der optimalen Parameter
-notwendig waere.
-Stattdessen wurde der Fokus auf eher robuste Modelle gelegt die resistente gegen
-den Missmatch in den Daten sind.
+sukzessive Veränderung der Daten eine aufwendige Suche der optimalen Parameter
+notwendig wäre.
+Stattdessen wurde der Fokus auf eher robuste Modelle gelegt die 
+resistent gegen den Missmatch in den Daten sind.
 
-Der Random Forest erwies sich bei kleinen Datensaetzen und sehr grossen
-Missmatchen \SI{30}{\percent} als zuverlaessigeres Modell.
-Trotz des Missmatches betrug die Accuracy \SI{50}{\percent}. 
-Dies laesst sich darauf zurueckfuehren das der Missmatch mit der relativen
-haeufigkeit der Klassen correliert ist. 
-Zu den hauefigsten Klassen zaehlen die Klassen 'keine Wolken', 'stratocumulus',
-'nimbostratus'. 
-Diese weisen alle ein characteristisches Farbspektrum auf und sind einfach
+Der Random Forest erweist sich bei kleinen Datensätzen und sehr großen
+Missmatch \SI{30}{\percent} als zuverlässigeres Modell.
+Trotz des Missmatch betrug die Accuracy \SI{50}{\percent}. 
+Dies lässt sich darauf zurückführen das der Missmatch mit der relativen
+Häufigkeit der Klassen korreliert. 
+Zu den häufigsten Klassen zählen die Klassen \textit{keine Wolken}, 
+\textit{Stratocumulus}, \textit{Nimbostratus}. 
+Diese weisen alle ein charakteristisches Farbspektrum auf und sind einfach
 anhand dessen von den anderen Klassen zu trennen.
-Das training des CNN dagegen stellte sich als schwierig heraus. 
-Trotz verschiedener Kernel-Groessen und anzahl an Convolutional Schichten lies
-sich die Accuracy nicht wesentlich uber \SI{30}{\percent} anheben. 
-Denkbar waere gewesen auf die Convolution zu verzichten und ebenso wie beim
+Das Training des CNN dagegen stellte sich als schwierig heraus. 
+Trotz verschiedener Kernel-Größen und Anzahl an Convolutional Schichten lies
+sich die Accuracy nicht wesentlich über \SI{30}{\percent} anheben. 
+Denkbar wäre gewesen auf die Convolution zu verzichten und ebenso wie beim
 Random Forest auf dem Farbspektrum zu trainieren.
-Dies Methode erschien wesentlich einfacher zu regularisieren und den Missmatch
+Dies Methode erschien wesentlich einfacher zu regularisieren um den Missmatch
 zu handeln.
-Die Entscheidung viel jedoch bewust dagegen aus um das Verhalten des Neuronalen Netzes
+Die Entscheidung viel jedoch bewußt dagegen aus um das Verhalten des Neuronalen Netzes
 auf schlecht simulierten Daten zu studieren. 
 
 \begin{wrapfigure}{r}{0.6\textwidth}
+		\vspace{-0.6cm}
 		\centering
 		\includegraphics[width=0.6\textwidth]{pictures/train_nn.pdf}
-		\caption{Loss sowie Accuracy in Abhaenigkeit der Trainingsepochen fuer
-		Trainings sowie validierungsdaten.}
-		\label{fig:}
+		\vspace{-1.2cm}
+		\caption{Loss sowie Accuracy in Abhängigkeit der Trainings Epochen für
+		Trainings sowie Validierung Daten.}
+		\vspace{-0.2cm}
+		\centering
+		\label{fig:t_nn}
 \end{wrapfigure}
-Der Random Forrest erreicht auf dem finalen Datensatz der immernoch einen
-kleinen Missmatch enthaelt aus der uneindeutigkeit der Klassen und dem Fehler
-des Bots eine ACC von \SI{62}{\percent}. 
-Auf dem selben Test Datensatz zur evaluation betraegt die Accuracy des CNN
-\SI{64}{\percent}.
-Dabei ist die Accuracy abhaengig bei welcher Epoche der Schnitt zwischen Over-
+Der Random Forest erreicht auf dem finalen Datensatz der immer noch einen
+kleinen Missmatch enthält aus der Uneindeutigkeit der Klassen und dem Fehler
+des Bots eine Accuracy von \SI{75}{\percent}. 
+Auf dem selben Test-Datensatz zur Evaluation beträgt die Accuracy des CNN ca
+\SI{65}{\percent}.
+Dabei ist die Accuracy abhängig bei welcher Epoche der Schnitt zwischen Over-
 und Underfitting macht.
-Plausibel erscheint ein schnitt zwischen der \num{70} und \num{85} Epoche.
-Auffaellig ist das der Validationloss anschliessend wieder Stark steigt und kein
-Platto bildet.
-Eine moegliche Ursache koennte der Missmatch seien.
+Trotz einer Trainingszeit von über acht Stunden scheint das Netz noch nicht zu
+Übertraining zu neigen, da weder der Validation Loss trotz des 
+Missmatch Problemes auffällig steigt, noch die Validation Accuracy 
+sinkt (vergleiche Abbildung \ref{fig:t_nn}).
+Ein wesentlich schnelleres Training konnte auch nicht durch das verwenden 
+anderer Loss Funktionen und Learningrates erreicht werden.
 In Abbildung \ref{fig:conf} sind die Confusion Matrizen der beiden Modelle
 dargestellt. 
 \begin{figure}[h]
@@ -66,19 +72,31 @@ dargestellt.
 		Vorhergesagte gegen das Wahre Klasse aufgetragen ist.}
 		\label{fig:conf}
 \end{figure}
-Prinzipell scheinen der Random Forrest jeweils Probleme wenn das Farbspektrum
-zweier Klassen sich nicht wesentlich unterscheidet.
-Dies ist ueberwiegend dann der Fall wenn die Wolkenbedeckung des Himmels sich
-Flaechenmaessig aehnelt. 
-Beim CNN ist dies \ldots der Fall.
+Prinzipiell scheinen beide Modelle jeweils Probleme zu haben wenn das 
+Farbspektrum zweier Klassen sich nicht wesentlich unterscheidet.
+Dies ist überwiegend dann der Fall wenn die Wolken Bedeckung des Himmels sich
+Flächenmäßig ähnelt. 
+Trotz einer niedrigen gesamten Accuracy scheint das CNN einen 
+Erkenntnis Gewinn aus den Kanten der Cumulus Wolken zu ziehen, da die Accuracy
+der Klasse höher ist als beim Random Forest.
+Dies ist erfreulich da dies als ein Hinweis darauf, dass das CNN 
+die Kanten der Wolken interpretieren können angesehen werden kann. 
 
-\begin{wrapfigure}{r}{0.32\textwidth}
+\begin{wrapfigure}{l}{0.32\textwidth}
 		\centering
+		\vspace{-0.4cm}
 		\includegraphics[width=0.3\textwidth]{pictures/time.pdf}
-		\caption{Auswertungszeit auf Testdaten.}
-		\label{fig:}
+		\caption{Auswertung zeit auf Test Daten.}
+		\label{fig:time}
 \end{wrapfigure}
-keine Aussage ueber die Trainingszeit.
-Zeitlicher vergleich der Methoden.
-Wenn moeglich auch die Resourcen.
+Der beschränkende Faktor beim Training des CNN ist einerseits die hohe
+Trainingszeit, welches die Suche nach den besten Einstellung schwierig macht da
+diese unheimlich lange zum Trainieren brauchen und andererseits die sehr
+beschränkte Größe des Datensatzes. 
+Der Missmatch der Daten scheint die Methoden zwar zu beschränken aber dennoch
+ein akkurates Ergebnis zu ermöglichen.
+Die Auswertungszeit des CNN ist geringer als beim Random Forest (siehe Abbildung
+\ref{fig:time}). 
+Dadurch lässt sich die Trigger Rate mit denen Wolken klassifiziert werden
+erhöhen.
 

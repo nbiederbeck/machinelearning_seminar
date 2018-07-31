@@ -1,48 +1,49 @@
 \section{Preprocessing}
 \label{sec:03_Preprocessing}
-Ziel des Preprocessing ist es die Daten aufzubereiten das der
-Informationsgehalt maximiert sowie Rauschen minimiert wird.
-Desweiteren muessen die Daten so vorverarbeitet werden, dass diese
-diese von den machine learning algorithmen ausgewertet werden können. 
+Ziel des Preprocessing ist es durch Aufbereitung der Daten den
+Informationsgehalt zu maximieren sowie Rauschen zu minimieren.
+Desweiteren müssen die Daten so vorverarbeitet werden, dass diese 
+von den machine learning Algorithmen ausgewertet werden können. 
 
-Um das Untegrundrauschen zu minimieren koennten Bildausschnitten auf 
+Um das Untergrund-Rauschen zu minimieren könnten Bildausschnitten auf 
 denen keine Wolken zu erkennen sind herausgeschnitten werden.
-Stattdessen wird auf die Methode der Farb-Filter zurueckgegriffen, da dabei 
+Stattdessen wird auf die Methode der Farb-Filter zurückgegriffen, da dabei 
 kein manuelle Nachbearbeitung der Fotos notwendig ist und somit ein höherer 
 Automatisierungsgrad erreicht wird.
 
 Dazu werden Bilder, die weniger als \SI{30}{\percent} der maximalen Helligkeit 
 besitzen, verworfen. 
-Anders als Beispielsweise bei einer Zeitschaltuhr laesst sich durch die
-Seperation anhand des Helligkeitswert die Messzeit maximieren, da die 
-Belichtung vom Monat als auch von der Wolkendecke abhaengig ist.
-Fotos welche nicht dem Helligkeitscut entprechen werden noch bevor sie 
-klassifiziert werden der Klasse 'schlechte Fotos' zugeordent um den 
-Arbeitsaufwand geringer zu halten.
+Anders als Beispielsweise bei einer Zeitschaltuhr lässt sich durch die
+Separation anhand des Helligkeitswert die Messzeit maximieren, da die 
+Belichtung vom Monat als auch von der Wolkendecke abhängig ist.
+Fotos welche nicht dem Helligkeits-Cut überstehen werden noch bevor 
+sie klassifiziert werden der Klasse 'schlechte Fotos' zugeordnet um 
+den Arbeitsaufwand geringer zu halten.
 
 \begin{wrapfigure}{r}{0.5\textwidth}
 		\centering
 		\includegraphics[width=0.49\textwidth]{pictures/cut_cube.pdf}
-		\caption{Um den Winkel $\alpha$ zur Gruenebene geneigte Parabel im RGB 
+		\caption{Um den Winkel $\alpha$ zur Grün Ebene geneigte Parabel im RGB 
 				Farbraum, welche zu den Blauwerten geöffnet ist.}
 				\label{fig:parabular}
 \end{wrapfigure}
-Das Wolkenspektrum hatt klar definierte Farben die Hauptsächlich aus Blau, Grau
+Das Wolkenspektrum hat klar definierte Farben das hauptsächlich aus Blau, Grau
 und Weiß Tönen besteht.
-Pixel die nicht zu diesem Spektrum gehörsn werden systematisch auf den
+Pixel die nicht zu diesem Spektrum gehören werden systematisch auf den
 Minimalwert gesetzt.
 Dazu wird der Farbraum in ein Rotiertes System $RGB'$ mittels der 
-Rotationsmatrix $R_{\alpha}$ um den Nullpunkt gehdreht. 
-Dem rotierten Farbraum $RGB'$ wird eine Parabel gelegt die Pixel verwirft, 
-welche die Ungleichung 
+Rotationsmatrix $R_{\alpha}$ um den Nullpunkt gedreht. 
+In dem rotierten Farbraum $RGB'$ wird eine Parabel gelegt die Pixel
+verwirft, welche die Ungleichung 
 \begin{equation}
 		c' > (b' - x_0)^2 + x_1, \hspace{3em} c' \in (r', g')
 \end{equation}
-nicht erfüllen und anschließend die Parabel in den ungestrichenen Raum zurueck
+nicht erfüllen.
+Im Anschluss wird die Parabel in den unursprünglichen Raum zurück
 rotiert.
 Der Nullpunkt der Parabel wird mit den Helligkeitswerten verschoben.
-Ein Beispiel ist fuer Alle  drei Kanäle in Abbildung \ref{fig:parabular} zu sehen.
-Dadurch laesst sich ein grossteil der mitfotographierten Untergrunddaten durch
+Ein Beispiel ist für alle  drei Kanäle in Abbildung \ref{fig:parabular} zu sehen.
+Dadurch lässt sich ein Großteil der mit fotografierten Untergrunddaten durch
 eine Konstanten Wert ersetzen \texttt{(0,0,0)}.
 \begin{figure}
 		\centering
@@ -53,17 +54,17 @@ eine Konstanten Wert ersetzen \texttt{(0,0,0)}.
 		\label{fig:name}
 \end{figure}
 
-Nachdem die Daten entsprechend aufbereitet wurden mussen sie noch in Form fuer
+Nachdem die Daten entsprechend aufbereitet wurden müssen sie noch in Form für
 die Algorithmen gebracht werden. 
-Dazu wird der Farbraum fuer den Random Forrest diskretisiert.
+Dazu wird der Farbraum für den Random Forest diskretisiert.
 Durch mehrmaliges austesten kristallisierte sich eine Anzahl von 
 \texttt{bins = 30} als die Diskretisierung mit den besten Ergebnissen heraus,
 wobei die auf den Konstanten Wert gesetzten Untergrunddaten kein Teil des
 Histogramms sind.
-Fuer das Neuronale Netz werden die Bilddaten auf eins normiert und mittels 
+Für das Neuronale Netz werden die Bilddaten auf eins normiert und mittels 
 eines \texttt{ImageDataGenerator} sequentiell aus den \texttt{JPG}-Dateien 
 eingelesen. 
-Dadurch laesst sich das Überlaufen des begrenzten Arbeitsspeicher auf Kosten 
+Dadurch lässt sich das Überlaufen des begrenzten Arbeitsspeicher auf Kosten 
 der Trainingszeit, durch das wiederholte Laden der Daten von der Festplatte,
 verhindern.
 
@@ -73,87 +74,98 @@ verhindern.
 Zur automatischen Bestimmung des Wolkentyps werden zwei verschiedene 
 Algorithmen verwendet. 
 Der Random Forest wird verwendet weil dieser out of the box hinreichend 
-schnell, in der Auswertung und resourcendschonen ist.
+schnell, in der Auswertung und ressourcend schonend ist.
 Desweiteren wird ein CNN benutzt da dieses im Gegensatz zum Random Forest in 
 der Laage ist sowohl auf den Wolkenformen sowie auch dem Farbspektrum zu
 trainieren. 
 
-Beim training der Algorithmen stellte sich heraus das die Daten aufgrund des im
-Kapitel \ref{sec:02_Datensatz} beschriebene Problem ein grossen Missmatch 
+Beim Training der Algorithmen stellte sich heraus das die Daten aufgrund des im
+Kapitel \ref{sec:02_Datensatz} beschriebene Problem ein großen Missmatch 
 aufweisen. 
-Aufgrund dessen ändert sich die Zielstellung bei der Optimierung wesenltich.
-Ziel ist vorerst nicht einen moeglichst hohe Genauigkeit zu erlangen um die
-Wolkenklassifikation auf den PIs voran zu treiben, sondern nun den Datensatz zu
-erweitern und den Missmatch zu minimieren.
-Dazu werden die Methoden genutzt um die Wolken welche nicht mit dem aktuellen
-Label übereinstimmen mittels dem Telegram Bot erneut zu überprüfen.
-Desweiteren wird bei dem labeln neuer Daten immer ein Label vorgeschlagen
+Aufgrund dessen ändert sich die Zielstellung bei der Optimierung wesentlich.
+Ziel ist vorerst nicht einen möglichst hohe Genauigkeit zu erlangen,
+um die Wolkenklassifikation auf den RaspberryPis voran zu treiben,
+sondern nun den Datensatz zu erweitern und den Missmatch zu 
+minimieren.
+Dazu werden die Methoden genutzt um die Wolken welche nicht mit dem 
+aktuellen Label übereinstimmen mittels dem \texttt{TelegramBot} erneut zu überprüfen.
+Desweiteren wird bei dem Labeln neuer Daten ein Label vorgeschlagen
 welches übernommen oder per Hand gelabelt werden kann.
 \begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{build/vorgehen.pdf}
-		\caption{Modell fuer weiteres Vorgehen zur verbesserung der Vorhersagen
-		der maschinellen Modelle durch erstellung eines reineren Datensatzes.}
+		\caption{Modell für weiteres Vorgehen zur Verbesserung der Vorhersagen
+		der maschinellen Modelle durch Erstellung eines reineren Datensatzes.}
 		\label{fig:}
 \end{figure}
 
-Die Metrik anhand derer die Modelle evaluiert werden bleibt die ACC wobei 
-abgeleitete Größen wie der Loss oder confidence Werte, kritisch bei Daten 
-welche einen Missmatch haben, zu betrachten sind.
+Die Metrik anhand derer die Modelle evaluiert werden, bleibt die 
+Accuracy wobei abgeleitete Größen wie der Loss oder Confidence 
+Werte, kritisch bei Daten welche einen Missmatch haben, zu 
+betrachten sind.
 
 \subsection{Random Forest}%
 \label{sub:random_forest}
 \begin{wrapfigure}{r}{0.5\textwidth}
 		\centering
+		\vspace{-1.2cm}
 		\includegraphics[width=0.5\textwidth]{./pictures/train_rf.pdf}
+		\vspace{-1.4cm}
 		\caption{Feature Importance des Random Forest.}
+		\vspace{-1.4cm}
 		\label{fig:}
 \end{wrapfigure}
-Fuer das Training des Random Forrest koennen mehrere Parameter variiert werden.
-Neben der maximalen Tiefe, der Anzahl an gezogenen Feature pro Baum kann auch 
-die Anzahl an Entscheifungsbaeumen varriert werden.
-Da die Methode des Random Forest jedoch durch einien hohe Anzahl an Bäumen
-gegen Overfitting geschuetzt werden, werden die Tiefe der Baeume nicht weiter
+Für das Training des Random Forest können mehrere Parameter variiert werden.
+Neben der maximalen Tiefe, der Anzahl an gezogenen Feature pro Baum kann die 
+Anzahl an Entscheidungsbäumen variiert werden.
+Da die Methode des Random Forest durch einen hohe Anzahl an Bäumen gegen 
+Overfitting geschützt werden kann, werden die Tiefe der Bäume nicht weiter
 beschränkt und die Anzahl an gezogenen Featuren nicht weiter optimiert.
 Desweiteren ist der histogrammierte Datensatz mit 30 bins pro Farbkanal für
-machine learning algorithmen sehr niederdimensional.
+machine learning Algorithmen sehr nieder dimensional.
+Bemerkenswert ist das der mit den Farbgecuttetem Datensatz trainierte Forest die
+Blau Werte Verhältnis mäßig geringer als die rot und Grün Bins gewichtet.
+Durch das trainieren auf den Grünen und Roten werten, lernt der Forest
+augenscheinlich ob der Himmel eher Blaulich oder Grau erscheint, da bei
+Grauwerten alle Farbkanäle ca gleich Groß sind.
 
 \subsection{Convolution Neuronal Network}%
 \label{sub:convolution_neuronal_network}
 
-Die optimierung des Netzes steht unter der permisse die Architecture des Netzes
-so einfach zu halten das die ACC maximal wird und die Parameteranzahl, welche 
-mit der auswertungszeit korrellieren kann, gering bleibt. 
-Beim Training mit der \texttt{categorical\_crossentropy} als Validation loss stellt sich 
-wider erwarten heraus das der validation loss bei guten Vorhersagen bei einem
-Datensatz mit einem Missmatch steigt. 
-Dies liegt daran wenn zum Beispiel bei dem waren Label $A$ der Datensatz das label
-$B$ hat. 
+Die Optimierung des Netzes steht unter der Prämisse die Architektur des Netzes
+so einfach zu halten das die ACC maximal wird und die Parameter Anzahl, welche 
+mit der Auswertungszeit korrelieren kann, gering bleibt. 
+Beim Training mit der \texttt{categorical\_crossentropy} als Validation Loss stellt sich 
+wider erwarten heraus das der Validation Loss bereits nach wenigen
+Trainingsschritten wieder steigt, wohingegen die Accuracy noch 
+signifikant steigt.
+Dies liegt daran wenn zum Beispiel bei dem wahren Label $A$ der 
+Datensatz das Label $B$ hat. 
 \begin{equation}
 		H(p,q) = -\sum_x p(x) \log q(x)
 \end{equation}
 Somit wird die Wahrscheinlichkeit $q(B)$ die ein trainiertes Netz für die 
-flasch klassifizierte Klasse klein und die Kreuzentropie groß.
-Dies hat zur Folge das die Kreuzentropie bei Datensaetzen mit einem Missmatch
-bei der Validierung fuer hohe ACC nicht abnimmt sondern schnell sehr groß wird.
-Das Übertraining kann durch eine Lossfunktion welche nicht so sensible auf
-Missmatches ist verringert werden. 
-Dies ist beispielsweise fuer die in der Analyse verwendete \texttt{logcosh} der
+falsch klassifizierte Klasse klein und die Kreuzentropie groß.
+Dies hat zur Folge das die Kreuzentropie bei Datensätzen mit einem Missmatch
+bei der Validierung für hohe ACC nicht abnimmt sondern schnell sehr groß wird.
+Das Übertraining kann durch eine Loss Funktion welche nicht so sensible auf
+Missmatch ist verringert werden. 
+Dies ist beispielsweise für die in der Analyse verwendete \texttt{logcosh} der
 Fall. 
-Sie aehnlt fuer kleine Werte dem mittleren Quadratischen Fehler und nimmt für
-große Werte einen linearen zusammenhang an.
-Desweiteren wird im Rahmen der Moeglichkeiten versucht den Missmatch der Daten 
+Sie ähnelt für kleine Werte dem mittleren Quadratischen Fehler und nimmt für
+große Werte einen linearen Zusammenhang an.
+Desweiteren wird im Rahmen der Möglichkeiten versucht den Missmatch der Daten 
 zu minimieren.
 
 \begin{figure}[h]
 		\centering
 		\includegraphics[width=0.8\textwidth]{pictures/architecture.pdf}
-		\caption{}
+		\caption{Skizze der verwendeten Architektur des CNN \cite{nnsvg}}
 		\label{fig:}
 \end{figure}
-Als architectur wird zunächst eine \texttt{AveragePooling2D} Schicht mit einer
+Als Architektur wird zunächst eine \texttt{AveragePooling2D} Schicht mit einer
 \texttt{poolsize} von \texttt{(3,4)} gewählt um die Dimesonalität des Bildes zu verringern.
-Dabei viel die wahl gegen die \texttt{MaxPooling2D} Schicht da durch das 
+Dabei viel die Wahl gegen die \texttt{MaxPooling2D} Schicht da durch das 
 Mitteln der Pixel deren Rauschen verringert werden kann.
 Anschließend folgen sechs \texttt{Conv2D} Schichten die der Faltung des Bildes
 dienen. 
@@ -161,22 +173,23 @@ Die erste Convolutionschicht besitzt ein Schrittweite von \texttt{strides =
 (3,3)} was ebenso der Dimesnionsreduktion dient.
 Zwischen der Convolution zweiten und dritten Schicht wird mittels
 \texttt{MaxPooling2d} die Dimesonalität weiter verringert. 
-Im anschluss folgen nach der letzten \texttt{Conv2D} Schicht eine weitere
+Im Anschluss folgen nach der letzten \texttt{Conv2D} Schicht eine weitere
 \texttt{MaxPooling2D} Schicht bevor die Daten geflattet werden.
 Beim \texttt{Flatten} wird aus einem hochdimensionalen Vektor ein flacher Vektor
 mit der gleichen Anzahl an Einträgen.
 Dieser kann von zwei aufeinanderfolgenden \texttt{Dense} Schichten verarbeitet
 werden.
-\texttt{Dense} Schicht wird der Outpuvektor der Flattenschicht $x_i$ mit den
+Bei einer \texttt{Dense} Schicht $i$ wird der flache Outpuvektor $x_i$ mit den
 Gewichten $w_\text{ij}$ multipliziert, welche die Verbindung zur Folgeschicht
 $j$ herstellen.
 Diese werden durch jeweils einer \texttt{Dropout} und \texttt{GaussianNoise} 
 Schicht regularisiert. 
 Dabei dient die \texttt{Dropout}- dazu die Gewichte $w_\text{ij}$ ausgeglichen 
 und die \texttt{Noise}-Schicht zu gewährleisten das diese klein sind.
-Abschließend folgt eine Dense schicht mit der Anzahl an neuronen der
+Abschließend folgt eine \texttt{Dense}-Schicht mit der Anzahl an Neuronen der
 Zielklassen.
-Fuer die Kernel sowie die Dens schichten wird die \texttt{relu} Funktion als
-Aktivierungsfunktion genutzt.
-Fuer die letzte Schicht wird entsprechend die \texttt{sigmoid} Funktion verwendet um die
-Vorraussagen glatt zu machen und auf 1 zu normieren.
+Für die \texttt{kernel} der \texttt{Conv2D} sowie die \texttt{Dense}
+Schichten wird die \texttt{relu} Funktion als Aktivierungsfunktion
+genutzt.
+Für die letzte Schicht wird die \texttt{sigmoid} Funktion verwendet um die
+Voraussagen glatt zu machen und auf eins zu normieren.
