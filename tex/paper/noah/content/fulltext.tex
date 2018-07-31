@@ -397,7 +397,7 @@ Forest.}%
 \section{Zusammenfassung}\label{zusammenfassung}}
 
 Ein erstes Ergebnis dieser Arbeit ist die Bestätigung, dass ein Random
-Forest robuster gegen falsche Label im Datensatz ist. Dies liegt an der
+Forest robust gegen falsche Label im Datensatz ist. Dies liegt an der
 Mittelung über viele Entscheidungsbäume.
 
 Der Random Forest erreicht eine höhere Leistung, als das Neuronale Netz,
@@ -435,6 +435,17 @@ Vorteil der Implementierung der Vorverarbeitung ist, dass jedes mögliche
 Foto gefiltert werden kann, und sie nicht auf die Bildgröße 1024$\times$768
 beschränkt ist. Außerdem kann ein anderer Farbraum geschnitten werden,
 wenn eine gute Schnittfunktion gefunden wurde.
+
+Die durchschnittliche Genauigkeit von 74\% bei einer Klassifikation in 9 Klassen
+ist ein sehr guter Wert.
+An der Confusion Matrix wird deutlich, welche Klassen besser und welche schlechter vorhergesagt
+werden können.
+Diese Klassen unterscheiden sich in den Daten sehr gering,
+sodass zusätzliche Vorverarbeitungscchritte sinnvoll sind.
+Ein mehrstufiges System,
+das zum Beispiel erst Wolken von `no clouds' trennt
+und im Anschluss die Cirrus-Wolkentypen einzeln klassifiziert,
+kann hier von Vorteil sein.
 
 \newpage
 
