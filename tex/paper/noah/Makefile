@@ -11,7 +11,7 @@ PREVIEW_CMD = \
 	$(TEX_CMD) --pvc
 
 
-all: build/main.pdf
+all: biederbeck_bericht.pdf
 # all: $(BUILD_FILES)
 
 
@@ -19,9 +19,10 @@ all: build/main.pdf
 	# pandoc -i $< -o $@ --number-sections
 
 
-build/main.pdf: FORCE | build
+biederbeck_bericht.pdf: FORCE | build
 	TEXINPUTS=$(OUT_DIR): BIBINPUTS=$(OUT_DIR): max_print_line=1048576 \
 	$(TEX_CMD) main.tex
+	cp build/main.pdf $@
 
 
 preview: FORCE | build
