@@ -3,46 +3,46 @@
 
 Der Datensatz wurde mittels einer PiCamera in einem Zeitraum von 3 Wochen
 aufgenommen. 
-Die Größe des Datensatzes ist beliebig erweiterbar aber wurde aufgrund der
+Die Größe des Datensatzes ist beliebig erweiterbar, aber wurde aufgrund der
 zeitlichen Einschränkung zur Evaluation auf \num{4000} Fotos beschränkt. 
 
 \begin{wrapfigure}{l}{0.35\textwidth}
 		\centering
 		\vspace{-0.5cm}
 		\includegraphics[width=0.3\textwidth]{./build/station_winkel.pdf}
-		\caption{Wolkenausschnitt in Abhängigkeit des Observationswinkel}
+		\caption{Wolkenausschnitt in Abhängigkeit des Observationswinkels.}
 		\label{fig:theta}
 		\vspace{-0.5cm}
 \end{wrapfigure}
 Desweiteren spielt die Zeit in der die Daten aufgenommen werden eine 
 wesentliche Rolle.
-In Abhängigkeit mit der Jahreszeiten ändert sich die relativen Häufigkeit in 
+In Abhängigkeit mit der Jahreszeiten ändern sich die relativen Häufigkeit, in 
 der die verschiedene Wolkentypen aufgenommen werden können und somit in dem 
 Datensatz repräsentiert sind. 
-So sind zum Beispiel momentan (\today) Schönwetterwolken viel stärker vertreten
-als die von Regenwetter. 
-Zu den elf Wolkenklassen die auch die Klasse \textit{keine Wolken} einschließt 
+So sind zum Beispiel momentan (\today) Schönwetterwolken viel häufiger
+vertreten, als die von Regenwetter. 
+Zu den elf Wolkenklassen, die auch die Klasse \textit{keine Wolken} einschließt, 
 zählt ebenso eine \textit{schlechtes Foto} Klasse. 
 Aufgrund von zufälligen als auch zeitlichen Ereignissen werden Fotos produziert
 die nicht Klassifiziert werden können.
-Dies ist Beispielsweise der Fall, wenn eine Person das Sichtfeld verdeckt oder 
+Dies ist beispielsweise der Fall, wenn eine Person das Sichtfeld verdeckt oder 
 aufgrund der fehlenden Belichtung bei Nacht die Wolkendecke nicht erkannt wird.
 
 Die Wolkenfotos wurden an zwei voneinander unabhängigen Orten aufgenommen, wobei
-Charakteristiken der Aufnahmeorte auf den Bildern zu erkennen seien können.
+Charakteristiken der Aufnahmeorte auf den Bildern zu erkennen sein können.
 Desweiteren stellte sich bei der Aufnahme des Datensatzes heraus, dass eine
 Ausrichtung der Kamera der Wetterstation nach Norden sinnvoll ist.
-Dadurch lässt sich der Kamerasensor schonen, indem ein übermäßiges ausleuchten
+Dadurch lässt sich der Kamerasensor schonen, indem ein übermäßiges Ausleuchten
  des Bildes durch die Sonne verhindert wird.
 
 Durch die Ausrichtung der Kamera zum Horizont kann, wie in Abbildung
- \ref{fig:theta} dargestellt, die Größe der observierten Wolken Fläche 
+ \ref{fig:theta} dargestellt, die Größe der observierten Wolkenfläche 
 eingestellt werden.
-Dadurch das die Wolken bei großen Aufnahmewinkeln $\theta$ viel näher als bei
-kleinen $\theta$ sind, kann bei gleichbleibender Raumwinkelauflösung $\Omega$
-nur eine viel kleinere Teil der Wolkendecke observiert werden.
-Bei diesen Ausschnitten stellt es sich als schwierig heraus sie der richtigen
-Klasse zuzuordnen da der Ausschnitt meist mehreren Klassen zuzuordnen ist. 
+Dadurch, dass die Wolken bei großen Aufnahmewinkeln $\omega$ viel näher als bei
+kleinen $\omega$ sind, kann bei gleichbleibender Raumwinkelauflösung $\Omega$
+nur ein viel kleinerer Teil der Wolkendecke observiert werden.
+Bei diesen Ausschnitten stellt es sich als schwierig heraus, sie der richtigen
+Klasse zuzuordnen, da der Ausschnitt meist mehreren Klassen zuzuordnen ist. 
 
 \begin{wrapfigure}{r}{0.35\textwidth}
 		\vspace{-1.4cm}
@@ -58,21 +58,21 @@ Die Wolkenfotos wurden mittels eines eigen dafür programmierten
 \href{https://telegram.me/weatherpi_bot}{\texttt{TelegramBot}} in
 die in Abbildung~\ref{fig:classes} aufgeführten Kategorien eingeteilt.
 Mit Hilfe von freiwilligen Labelern wurde jedes Foto des Datensatzes drei mal
-klassifiziert und anschließend per Mehrheitsentscheidung der Zielklasse 
+gelabelt und anschließend per Mehrheitsentscheidung der Zielklasse 
 zugeteilt.
 Der Arbeitsaufwand wurde mit ca $\num{4000} \, \text{Bilder} \cdot \SI{1}{\hertz}$
 abgeschätzt.
-Aufgrund von Aussetzern des Bots als auch der Ladezeiten der Bilder konnte die Rate
+Aufgrund von Aussetzern des Bots und der Ladezeiten der Bilder konnte die Rate
 auch nach einer Einarbeitungszeit nicht erreicht werden und die pro Bild benötigte Zeit entsprach schätzungsweise
 \SI{15}{\second}.
-Bei der Evaluation der Modelle stellte sich heraus das bei paralleler Nutzung
+Bei der Evaluation der Modelle stellte sich heraus, dass bei paralleler Nutzung
 eine interne Klassenvariable überschrieben wurde, sodass ein Großteil der
-Klassifizierten Daten einer falschen Finalen Klasse zugeordnet wurden. 
+Klassifizierten Daten einer falschen finalen Klasse zugeordnet wurden. 
 Final steht ein Datensatz von \num{4000} Bildern welche in 10 Wolkenklassen und
 einer Klasse mit schlechten Fotos aufgeteilt sind. Die Bilder besitzen eine Dimension 
 von \texttt{(1024x768x3)} und liegen im \texttt{JPG}-Format vor.
-Sie stehen unter der MIT Liezens und soll allen interessierten 
-Datenanalysen zur Verfügung stehen.
+Sie stehen unter der MIT Lizens und soll allen interessierten 
+Datenanalysten zur Verfügung stehen.
 
 \begin{figure}[h]
 		\centering
