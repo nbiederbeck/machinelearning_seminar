@@ -5,29 +5,37 @@ Daten gelabelt werden.
 Dabei unterlief ein Fehler, sodass die Klassenzugehörigkeit der Bilder teilweise
 falsch eingetragen wurde.
 Das neugesteckte Ziel ist eine starke Generalisierung der maschinellen Lernern 
-um das Training auf den Daten die einen Missmatch haben zu ermöglichen.
+um das Training auf den Daten die einen Mismatch enthalten zu ermöglichen.
 Desweiteren konnte das Verhalten der Algorithmen bei einem Datensatz
-mit einem Missmatch studiert werden.
-Die Trainierten Modelle wurden dazu verwendet den Missmatch 
+mit einem Mismatch studiert werden.
+Die trainierten Modelle wurden dazu verwendet, den Mismatch 
 suksessive zu verringern.
 Desweiteren wurde ein Farbfilter sowie die Möglichkeit einen 
 Datensatz per Chat zu labeln geschaffen.
 Es wurde durch Varation der Architectur versucht das Netz der Problemstellung
 anzupassen und die Parameter geschickt zu wählen.
-Die Vorhersagegenauigkeit der Modelle sind mit dem Missmatch antikorelliert was
+Die Vorhersagegenauigkeit der Modelle sind mit dem Mismatch antikorelliert was
 den Fokus auf eine weitere Bereinigung des Datensatzes legt.
 Der Random Forest erweist sich dabei als das Modell welches mit 
-einem kleinen Trainingsdatensatz und Missmatchen besser umgehen 
+einem kleinen Trainingsdatensatz und Mismatchen besser umgehen 
 kann.
 
 In Zukunft soll der Datensatz wesentlich erweitert werden um das 
 Training des CNN zu verbessern.
-Desweiteren wird geprüft ob, bei einem hinreichend großen Datensatz sowie
-Genauigkeit, 
-Modelle Wolken mittels dem sliding Window verfahren tracken koennen.
+In Zukunft wird versucht die Wolkenklassifizierung um die Funktion des
+Wolkentrackings zu erweitern.
+Dazu wird zunächst die größe des Datensatzes erweitert um im Anschluss den
+Versuch eines sliding window verfahren zu starten.
 Dabei sind besonders die Größenänderung sowie die Bewegungsrichtung von
 besonderem Interesse.
 Dies könnte zum Beispiel sowohl die Präzesion der Wettervorhersage, als auch 
 die Routenberechnung für Segelflieger verbessern. 
 Dazu werden lokale Wolkenvorhersagen benötigt, die durch die Methode
 möglicherweise geschaffen werden können.
+
+\vspace{3em}
+
+Ein Dank geht an Herr Dr. Nackenhorst und Herr Dr. Erdmann die mit ihrem im
+Seminar vermittelten Wissen, eine Basis für diese Arbeit zur Verfügung gestellt
+haben.
+
